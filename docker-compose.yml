@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: build
+    restart: always
+    ports:
+    - "3000:3000"
+    volumes:
+      - ./frontend/node_modules:/home/app/node_modules
+      - ./frontend/src:/home/app/src
+    environment:
+      - WATCHPACK_POLLING=true # hot reloading
+    command: npm start
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/src:/home/app
+    command: sh -c /entrypoint.sh
+    env_file: ./backend/.env.local
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_volume: null
