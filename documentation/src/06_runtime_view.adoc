@@ -96,10 +96,32 @@ A user can decide that they want to delete their account.
 ****** *User* (Database/Model):
 
 === Viewing the characters of a player
+* *PlayerPage* (Frontend): Page that holds the component that is used here.
+** *CharacterManagerComponent* (Frontend): Component that manages character data.
+*** *CharacterView* (API): View that presents all characters of a certain player.
+**** *CharacterService* (Backend): Business logic that combines all the different characters of a player into one object.
+***** *CharacterSerializer* (Backend): Gets the character data from the database.
+****** *Character* (Database): Database model. Documented in the Building Block View.
+
+==== API used during this runtime procedure
+The API that is used in this runtime procedure is reachable via `+'/api/player_data/<player_id>'+` (GET).
+It returns an object of the following form:
+
+* List of:
+** "*id*": ID of the character.
+** "*name*": Name of the character.
+** "*entries*": Lots of character entries here.
 
 === Changing a character of a player
+* *PlayerPage* (Frontend):
+** *CharacterManagerComponent* (Frontend):
+*** *CharacterEditView* (API):
+**** *CharacterService* (Backend):
+***** *CharacterSerializer* (Backend):
+****** *Character* (Database):
 
 === Deleting a character of a player
+?
 
 === Viewing a convention as an admin
 
