@@ -1,49 +1,110 @@
 [[section-runtime-view]]
 == Runtime View
+Runtime views are use-cases. Anytime a user of the software wants to do any kind of action a runtime procedure is
+triggered. All of these procedures are documented here.
+
+=== Logging in
+Before any other use-case is triggered a user needs to be logged in. This determines their permissions and gives them a
+set of user information belonging only to them.
+
+==== Call procedure
+* *FrontPage* (Frontend): On the FrontPage the user can either click on the Login/ Register button or try to do any kind of action that requires to be logged in. They will then be forwarded to the LogInPage.
+** *LogInPage* (Frontend): On the LogInPage the user will be prompted to enter some Log In credentials. With these credentials the API that is represented by the LogInView will be called. If they don't have an account they can register a new one (refer to "Register a new user").
+*** *LogInView* (Backend/API): The LogInView will forward the given information to the LogInService.
+**** *LogInService* (Backend): The LogInService will call the EncryptionService to encrypt the password that is still in plain text. With the then updated data the UserSerializer is called to check if a user with the given credentials exists.
+***** *EncryptionService* (Backend): Hashes a given password and returns the result.
+***** *UserSerializer* (Backend): Checks if a user with the given credentials exists in the database.
+****** *User* (Database/Model): Holds the user, if it already exists. From here this true/false to that question is being returned all the way up to the frontend.
+
+==== API used during this runtime procedure
+The API used during this runtime view is called via `+'/api/login'+` (POST).
+It receives an object of the following form:
+
+* "*email*": The email that will serve as the username
+* "*password*": The password, still in plain text.
+
+=== Register a new user
+Before any other use-case is triggered a user needs to be logged in. And to be logged in, they first need to have a set of login credentials, which are gained by registering.
+
+==== Call procedure
+* *FrontPage* (Frontend): On the FrontPage the user can either click on the Login/ Register button or try to do any kind of action that requires to be logged in. They will then be forwarded to the LogInPage.
+** *LogInPage* (Frontend): On the LogInPage, a user can log themselves in, if they already have an account (refer to "Logging in"). If they don't, they will be prompted to register with an email, a password and some personal credentials. These information will then be sent to the API via RegisterView.
+*** *RegisterView* (Backend/API): The RegisterView takes the information from the frontend and forwards it to the RegisterService.
+**** *RegisterService* (Backend): The RegisterService then goes on with the information. It encrypts the password by letting the EncryptionService hash it and then gives the updated information package to the UserSerializer.
+***** *EncryptionService* (Backend): Hashes a given password and returns the result.
+***** *UserSerializer* (Backend): The UserSerializer will take the given information and save it to the User table in the database.
+****** *User* (Database/Model): This is where the user information is stored at the end. A new user was successfully created!
+
+==== API used during this runtime procedure
+The API that is used in this runtime procedure is reachable via `+'/api/register'+` (POST).
+It receives an object of the following form:
+
+* "*email*": The email that will serve as the username
+* "*password*": The password, still in plain text.
+* "*name*": The name of the player.
+* "*address*": Address of the player.
+* ... : _A lot of information about the player, that is yet to be determined._
+
+=== Viewing the user data
+A user is able to view its own data.
+
+==== Call procedure
+* *UserPage* (Frontend):
+** *UserDataPage* (Frontend):
+*** *UserDataView* (Backend/API):
+**** *UserDataService* (Backend):
+***** *UserSerializer* (Backend):
+****** *User* (Database/Model):
 
 
-[role="arc42help"]
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
+==== API used during this runtime procedure
+The API that is used in this runtime procedure is reachable via `+'/api/user_data'+` (GET).
+It receives an object of the following form:
 
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
+* "*id*": The ID of the user whichs credentials are to be displayed.
 
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
+=== Changing the user data
+If a user wants to update their credentials, they will put them in a form in the frontend and submit it to the backend.
 
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
+==== Call procedure
+* *UserPage* (Frontend):
+** *UserDataPage* (Frontend):
+*** *UpdateUserDataView* (Backend/API):
+**** *UserDataService* (Backend):
+***** *UserSerializer* (Backend):
+****** *User* (Database/Model):
 
-.Form
-There are many notations for describing scenarios, e.g.
+==== API used during this runtime procedure
+The API that is used in this runtime procedure is reachable via `+'/api/user_data_update'+` (POST).
+It receives an object of the following form:
 
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
+* "*email*": The email that will serve as the username
+* "*password*": The password, still in plain text.
+* "*name*": The name of the player.
+* "*address*": Address of the player.
+* ... : _A lot of information about the player, that is yet to be determined._
 
+=== Deleting a user
+A user can decide that they want to delete their account.
 
-.Further Information
+==== Call procedure
+* *UserPage* (Frontend):
+** *UserDataPage* (Frontend):
+*** *UpdateUserDataView* (Backend/API):
+**** *UserDataService* (Backend):
+***** *UserSerializer* (Backend):
+****** *User* (Database/Model):
 
-See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
+=== Viewing the characters of a player
 
-****
+=== Changing a character of a player
 
-=== <Runtime Scenario 1>
+=== Deleting a character of a player
 
+=== Viewing a convention as an admin
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
+=== Creating/Updating a convention as an admin
 
-=== <Runtime Scenario 2>
+=== Deleting a convention as an admin
 
-=== ...
-
-=== <Runtime Scenario n>
+=== Signing up for a convention as a player
