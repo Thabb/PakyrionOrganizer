@@ -9,7 +9,7 @@ function App() {
       <main>
         <Routes>
           <Route exact path="/" element={<FrontPage />} />
-            <Route path="/user" element={<UserPage />} />
+            <Route path="/user/:user_id" element={<UserPage />} />
         </Routes>
       </main>
     </Router>
