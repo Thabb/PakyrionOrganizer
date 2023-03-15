@@ -11,4 +11,4 @@ class CharacterSerializer(serializers.ModelSerializer):
 class CharacterOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        fields = ('name', 'profession', 'group')
+        fields = ('id', 'name', 'profession', 'group')

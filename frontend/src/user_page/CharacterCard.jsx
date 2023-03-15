@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import * as PropTypes from 'prop-types';
 import API from '../shared/api';
+import { Link } from 'react-router-dom';
 
 /**
  *
@@ -69,8 +70,12 @@ export default function CharacterCard({ userId }) {
               <tr {...row.getRowProps} key={`character-overview-table-${row}`}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps} key={`character-overview-table-${cell}`}>
-                      {cell.render('Cell')}
+                    <td {...cell.getCellProps} key={`character-overview-table-cell-${cell.value}`}>
+                      <Link
+                        to={`/character/${row.original.id}`}
+                        key={`character-overview-table-link-${row}`}>
+                        {cell.render('Cell')}
+                      </Link>
                     </td>
                   );
                 })}
