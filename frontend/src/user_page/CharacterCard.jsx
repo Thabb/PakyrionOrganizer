@@ -85,7 +85,7 @@ export default function CharacterCard({ userId }) {
                   return (
                     <td
                       {...cell.getCellProps}
-                      key={`character-overview-table-body-cell-${cell.value}`}>
+                      key={`character-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
                       <Link
                         to={`/character/${row.original.id}`}
                         key={`character-overview-table-link-${row}`}>
