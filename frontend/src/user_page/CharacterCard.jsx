@@ -3,6 +3,7 @@ import { useTable } from 'react-table';
 import * as PropTypes from 'prop-types';
 import API from '../shared/api';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 /**
  *
@@ -12,15 +13,18 @@ import { Link } from 'react-router-dom';
  */
 export default function CharacterCard({ userId }) {
   const [characterData, setCharacterData] = useState([]);
+  const [newCharacterName, setNewCharacterName] = useState('');
+  const [reload, setReload] = useState(false);
 
   // API call to get data
   useEffect(() => {
     API.get(`/api/character_overview/${userId}`)
       .then((response) => {
         setCharacterData(response.data);
+        setReload(false);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [reload]);
 
   // columns for the table
   const columns = useMemo(
@@ -45,6 +49,13 @@ export default function CharacterCard({ userId }) {
     columns: columns,
     data: characterData
   });
+
+  const createNewCharacter = () => {
+    API.post('/api/character_create/', { name: newCharacterName, user_id: userId }).then(
+      (response) => console.log(response)
+    );
+    setReload(true);
+  };
 
   return (
     <>
@@ -88,6 +99,16 @@ export default function CharacterCard({ userId }) {
           })}
         </tbody>
       </table>
+      <div>
+        <p>Neuer Charakter:</p>
+        Name:{' '}
+        <input
+          type="text"
+          value={newCharacterName}
+          onChange={(e) => setNewCharacterName(e.target.value)}
+        />
+        <Button onClick={createNewCharacter}>Erstellen!</Button>
+      </div>
     </>
   );
 }

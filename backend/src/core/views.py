@@ -23,10 +23,23 @@ def get_character(_, character_id):
 
 @api_view(["POST"])
 def save_character(request, character_id):
-    print(request.data)
     character = Character.objects.filter(pk=character_id)
     if character:
         character.update(**request.data)
+    else:
+        return Response(status=404)
+
+    return Response(status=200)
+
+
+@api_view(["POST"])
+def create_character(request):
+    character_name = request.data["name"]
+    user_id = request.data["user_id"]
+
+    serializer = CharacterSerializer(data={"user_id": user_id, "name": character_name})
+    if serializer.is_valid():
+        serializer.save()
     else:
         return Response(status=404)
 

@@ -6,7 +6,7 @@ class User(models.Model):
 
 
 class Character(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
 
     name = models.CharField(max_length=255, default="")
     group = models.CharField(max_length=255, default="")

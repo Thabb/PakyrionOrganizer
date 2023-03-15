@@ -43,7 +43,6 @@ export default function CharacterPage() {
               value={formData[key] || value}
               onChange={(e) => {
                 setFormData((values) => ({ ...values, [key]: e.target.value }));
-                console.log(formData);
               }}
             />
           </td>
