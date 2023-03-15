@@ -22,7 +22,6 @@ export default function CharacterPage() {
    * @return {JSX.Element[]}
    */
   const generateCharacterPresentation = () => {
-    console.log(characterData);
     return Object.entries(characterData).map(([key, value]) => {
       return (
         <tr key={`character-table-${key}-${value}`}>

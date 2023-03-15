@@ -51,26 +51,30 @@ export default function CharacterCard({ userId }) {
       <p>Hier könnte ihre Werbung stehen</p>
       <table {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps}
-              key={`character-overview-table-${headerGroup}`}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps} key={`character-overview-table-${column}`}>
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
+          {headerGroups.map((headerGroup) => {
+            return (
+              <tr {...headerGroup.getHeaderGroupProps} key={'character-overview-table-head-row'}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps}
+                    key={`character-overview-table-head-cell-${column.id}`}>
+                    {column.render('Header')}
+                  </th>
+                ))}
+              </tr>
+            );
+          })}
         </thead>
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps} key={`character-overview-table-${row}`}>
+              <tr {...row.getRowProps} key={`character-overview-table-body-row-${row.id}`}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps} key={`character-overview-table-cell-${cell.value}`}>
+                    <td
+                      {...cell.getCellProps}
+                      key={`character-overview-table-body-cell-${cell.value}`}>
                       <Link
                         to={`/character/${row.original.id}`}
                         key={`character-overview-table-link-${row}`}>
