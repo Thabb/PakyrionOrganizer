@@ -1,86 +1,87 @@
-import {useEffect, useMemo, useState} from "react";
-import { useTable } from "react-table";
-import * as PropTypes from "prop-types";
-import API from "../shared/api"
+import { useEffect, useMemo, useState } from 'react';
+import { useTable } from 'react-table';
+import * as PropTypes from 'prop-types';
+import API from '../shared/api';
 
+/**
+ *
+ * @param {string} userId
+ * @return {JSX.Element}
+ * @constructor
+ */
+export default function CharacterCard({ userId }) {
+  const [characterData, setCharacterData] = useState([]);
 
+  // API call to get data
+  useEffect(() => {
+    API.get(`/api/character_overview/${userId}`)
+      .then((response) => {
+        setCharacterData(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-export default function CharacterCard({user_id}) {
-    const [characterData, setCharacterData] = useState([]);
+  // columns for the table
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'name'
+      },
+      {
+        Header: 'Profession',
+        accessor: 'profession'
+      },
+      {
+        Header: 'Gruppe',
+        accessor: 'group'
+      }
+    ],
+    []
+  );
 
-     // API call to get data
-    useEffect(() => {
-        API.get(`/api/character_overview/${user_id}`)
-        .then((response) => {
-            setCharacterData(response.data);
-        })
-        .catch((error) => console.log(error));
-    }, []);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    columns: columns,
+    data: characterData
+  });
 
-    // columns for the table
-    const columns = useMemo(
-        () => [
-            {
-                Header: "Name",
-                accessor: "name",
-            },
-            {
-                Header: "Profession",
-                accessor: "profession",
-            },
-            {
-                Header: "Gruppe",
-                accessor: "group",
-            }
-        ],
-        [],
-    );
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = useTable({
-        columns: columns,
-        data: characterData
-    })
-
-    return (
-        <>
-            <p>Hier könnte ihre Werbung stehen</p>
-            <table {...getTableProps()}>
-                <thead>
-                {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps}>
-                        {
-                            headerGroup.headers.map( column => (
-                                <th {...column.getHeaderProps}>{column.render('Header')}</th>
-                            ))
-                        }
-                    </tr>
-                ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                    prepareRow(row)
-                    return(
-                        <tr {...row.getRowProps}>
-                            {row.cells.map(cell => {
-                                return <td {...cell.getCellProps}>{cell.render('Cell')}</td>
-                            })
-                            }
-
-                    </tr>
-                    )
-                    })
-                }
-                </tbody>
-            </table>
-        </>
-    )
+  return (
+    <>
+      <p>Hier könnte ihre Werbung stehen</p>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr
+              {...headerGroup.getHeaderGroupProps}
+              key={`character-overview-table-${headerGroup}`}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps} key={`character-overview-table-${column}`}>
+                  {column.render('Header')}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps} key={`character-overview-table-${row}`}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps} key={`character-overview-table-${cell}`}>
+                      {cell.render('Cell')}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
+  );
 }
 CharacterCard.propTypes = {
-    user_id: PropTypes.string.isRequired,
-}
+  userId: PropTypes.string.isRequired
+};

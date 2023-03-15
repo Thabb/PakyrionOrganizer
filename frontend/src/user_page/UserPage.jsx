@@ -1,12 +1,17 @@
-import CharacterCard from "./CharacterCard";
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import CharacterCard from './CharacterCard';
 
-export default function UserPage(){
-    const { user_id } = useParams();
-    return (
-        <>
-            <h1>User Page</h1>
-            <CharacterCard user_id={user_id}/>
-        </>
-    )
+/**
+ *
+ * @return {JSX.Element}
+ * @constructor
+ */
+export default function UserPage() {
+  const { userId } = useParams();
+  return (
+    <>
+      <h1>User Page</h1>
+      <CharacterCard userId={userId} />
+    </>
+  );
 }
