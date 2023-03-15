@@ -8,9 +8,9 @@ class User(models.Model):
 class Character(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
-    name = models.CharField(max_length=255)
-    group = models.CharField(max_length=255)
-    profession = models.CharField(max_length=255)
-    faith = models.CharField(max_length=255)
-    age = models.CharField(max_length=255)
-    family = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, default="")
+    group = models.CharField(max_length=255, default="")
+    profession = models.CharField(max_length=255, default="")
+    faith = models.CharField(max_length=255, default="")
+    age = models.CharField(max_length=255, default="")
+    family = models.CharField(max_length=255, default="")
