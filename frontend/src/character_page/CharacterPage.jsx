@@ -1,13 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import API from '../shared/api';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 /**
  * @return {JSX.Element}
  */
 export default function CharacterPage() {
   const [characterData, setCharacterData] = useState([]);
+  const [formData, setFormData] = useState({});
   const { characterId } = useParams();
+
+  // initialize formData with data from the API
+  useCallback(
+    () =>
+      Object.entries(characterData).map(([key, value]) => {
+        formData[key] = value;
+      }),
+    []
+  );
 
   // API call to get data
   useEffect(() => {
@@ -26,10 +37,25 @@ export default function CharacterPage() {
       return (
         <tr key={`character-table-${key}-${value}`}>
           <th key={`character-table-${key}`}>{key}</th>
-          <td key={`character-table-${value}`}>{value}</td>
+          <td key={`character-table-${value}`}>
+            <input
+              type="text"
+              value={formData[key] || value}
+              onChange={(e) => {
+                setFormData((values) => ({ ...values, [key]: e.target.value }));
+                console.log(formData);
+              }}
+            />
+          </td>
         </tr>
       );
     });
+  };
+
+  const saveCharacterData = () => {
+    API.post(`/api/character_save/${characterId}`, formData).then((response) =>
+      console.log(response)
+    );
   };
 
   return (
@@ -38,6 +64,7 @@ export default function CharacterPage() {
       <table>
         <tbody>{generateCharacterPresentation()}</tbody>
       </table>
+      <Button onClick={saveCharacterData}>Speichern!</Button>
     </>
   );
 }

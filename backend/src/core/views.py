@@ -15,7 +15,19 @@ def get_character_overview(_, user_id):
 
 @api_view(["GET"])
 def get_character(_, character_id):
-    character_data = Character.objects.get(id=character_id)
+    character_data = Character.objects.get(pk=character_id)
     response_data = CharacterSerializer(character_data).data
 
     return Response(response_data)
+
+
+@api_view(["POST"])
+def save_character(request, character_id):
+    print(request.data)
+    character = Character.objects.filter(pk=character_id)
+    if character:
+        character.update(**request.data)
+    else:
+        return Response(status=404)
+
+    return Response(status=200)
