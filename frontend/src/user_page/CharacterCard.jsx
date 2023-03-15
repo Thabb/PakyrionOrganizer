@@ -10,7 +10,7 @@ export default function CharacterCard({user_id}) {
 
      // API call to get data
     useEffect(() => {
-        API.get(`/api/character/${user_id}`)
+        API.get(`/api/character_overview/${user_id}`)
         .then((response) => {
             setCharacterData(response.data);
         })
@@ -25,7 +25,11 @@ export default function CharacterCard({user_id}) {
                 accessor: "name",
             },
             {
-                Header: "Group",
+                Header: "Profession",
+                accessor: "profession",
+            },
+            {
+                Header: "Gruppe",
                 accessor: "group",
             }
         ],
