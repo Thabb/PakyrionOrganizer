@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -15,8 +14,8 @@ def get_character_overview(_, user_id):
 
 
 @api_view(["GET"])
-def get_character_list(_, user_id):
-    character_list_data = Character.objects.filter(user_id=user_id)
-    response_data = CharacterSerializer(character_list_data, many=True).data
+def get_character(_, character_id):
+    character_data = Character.objects.get(id=character_id)
+    response_data = CharacterSerializer(character_data).data
 
     return Response(response_data)
