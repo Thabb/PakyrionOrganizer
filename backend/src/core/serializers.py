@@ -5,4 +5,10 @@ from core.models import Character
 class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        fields = "__all__"
+        exclude = ('id',)
+
+
+class CharacterOverviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = ('name', 'profession', 'group')
