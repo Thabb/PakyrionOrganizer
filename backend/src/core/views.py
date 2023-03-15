@@ -44,3 +44,14 @@ def create_character(request):
         return Response(status=404)
 
     return Response(status=200)
+
+
+@api_view(["POST"])
+def delete_character(_, character_id):
+    character = Character.objects.filter(pk=character_id)
+    if character:
+        character.delete()
+    else:
+        return Response(status=404)
+
+    return Response(status=200)

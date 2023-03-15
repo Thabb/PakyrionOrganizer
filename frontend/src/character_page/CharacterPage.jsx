@@ -57,6 +57,13 @@ export default function CharacterPage() {
     );
   };
 
+  const deleteCharacter = () => {
+    API.post(`/api/character_delete/${characterId}`).then((response) => console.log(response));
+    const link = document.createElement('a');
+    link.setAttribute('href', 'javascript:history.back();');
+    link.click();
+  };
+
   return (
     <>
       <h1>Character Page</h1>
@@ -64,6 +71,7 @@ export default function CharacterPage() {
         <tbody>{generateCharacterPresentation()}</tbody>
       </table>
       <Button onClick={saveCharacterData}>Speichern!</Button>
+      <Button onClick={deleteCharacter}>Charakter löschen!</Button>
     </>
   );
 }

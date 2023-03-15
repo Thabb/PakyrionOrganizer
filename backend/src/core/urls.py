@@ -6,4 +6,5 @@ urlpatterns = [
     path('character/<character_id>', views.get_character, name='character'),
     path('character_save/<character_id>', views.save_character, name='save_character'),
     path('character_create/', views.create_character, name='create_character'),
+    path('character_delete/<character_id>', views.delete_character, name='delete_character'),
 ]
