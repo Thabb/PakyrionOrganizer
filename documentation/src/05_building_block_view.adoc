@@ -46,18 +46,42 @@ image::PakyrionOrganizerBuildingBlockLevel3.png["Level 3 Graph"]
 [cols="1,2,2,2" options="header"]
 |===
 | **Name** | **Responsibility** | **Based on (Input)** | **Provides to (Output)**
-| **FrontPage** | _description_ | [underline]#in#: | [underline]#out#:
+| **FrontPage** | _Frontpage of the whole application. Logging in and convention sign up are done here._ | [underline]#UserPage#: Calls the UserPage to display user information. | -
 | **LogInPage** | _description_ | [underline]#in#: | [underline]#out#:
 | **ConventionSignUpPage** | _description_ | [underline]#in#: | [underline]#out#:
 | **AdminPage** | _description_ | [underline]#in#: | [underline]#out#:
 | **ConventionPage** | _description_ | [underline]#in#: | [underline]#out#:
-| **UserPage** | _description_ | [underline]#in#: | [underline]#out#:
+| **UserPage** | _Displays and manages user information._ | [underline]#CharacterCard#: Holds an overview over the characters of a user. | [underline]#FrontPage#: Called by the FrontPage.
+| **CharacterCard** | _Holds an overview over the characters of a user._ | [underline]#CharacterPage#: Called when detailled information about a character is needed.
+
+[underline]#CharacterOverviewAPI#: Used for displaying the overview table.
+
+[underline]#CharacterCreateAPI#: Used for creating a new character.
+
+| [underline]#UserPage#: Part of the UserPage.
 | **ConventionStatusPage** | _description_ | [underline]#in#: | [underline]#out#:
-| **CharacterPage** | _description_ | [underline]#in#: | [underline]#out#:
+| **CharacterPage** | _Holds detailed information about a specific character._ | [underline]#CharacterGetAPI#: Used for getting all information about a character.
+
+[underline]#CharacterSaveAPI#: Used for saving changes to the character.
+
+[underline]#CharacterDeleteAPI#: Used for deleting the character.
+| [underline]#CharacterCard#: Called by the CharacterCard.
 | **PlayerDataPage** | _description_ | [underline]#in#: | [underline]#out#:
 |===
 
-==== Backend Table
+==== View Table
+
+[cols="1,2,2,2" options="header"]
+|===
+| **Name** | **Responsibility** | **Based on (Input)** | **Provides to (Output)**
+| **CharacterOverviewAPI** | _Gives an overview about characters. API Documentation can be found under point 3 of this documentation._ | [underline]#CharacterOverviewSerializer#: Gets the data from the database. | [underline]#CharacterCard#:
+| **CharacterGetAPI** | _Gives all information about a character. API Documentation can be found under point 3 of this documentation._ | [underline]#CharacterSerializer#: Gets the data from the database. | [underline]#CharacterPage#:
+| **CharacterCreateAPI** | _Creates a new character. API Documentation can be found under point 3 of this documentation._ | [underline]#CharacterSerializer#: Gets the data from the database. | [underline]#CharacterCard#:
+| **CharacterSaveAPI** | _Saves updated information about a character. API Documentation can be found under point 3 of this documentation._ | [underline]#CharacterSerializer#: Gets the data from the database. | [underline]#CharacterPage#:
+| **CharacterDeleteAPI** | _Deletes a character. API Documentation can be found under point 3 of this documentation._ | [underline]#CharacterSerializer#: Gets the data from the database. | [underline]#CharacterPage#:
+|===
+
+==== Service Table
 
 [cols="1,2,2,2" options="header"]
 |===
@@ -67,12 +91,29 @@ image::PakyrionOrganizerBuildingBlockLevel3.png["Level 3 Graph"]
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
+|===
+
+==== Serializer Table
+
+[cols="1,2,2,2" options="header"]
+|===
+| **Name** | **Responsibility** | **Based on (Input)** | **Provides to (Output)**
+| **CharacterSerializer** | _Serializes all data of the character model._ | [underline]#Character#: Database Model this serializer is based on. | [underline]##:
+| **CharacterOverviewSerializer** | _Serializes only a few specific fields of the character model that are needed for an overview._ | [underline]#Character#: Database model this serializer is based on. | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
-| **name** | _description_ | [underline]#in#: | [underline]#out#:
-| **name** | _description_ | [underline]#in#: | [underline]#out#:
-| **name** | _description_ | [underline]#in#: | [underline]#out#:
+|===
+
+==== Database Table
+
+[cols="1,2,2,2" options="header"]
+|===
+| **Name** | **Responsibility** | **Based on (Input)** | **Provides to (Output)**
+| **Character** | _Model for all information on a character._ | [underline]#CharacterSerializer#: Gets all information from the model.
+
+[underline]#CharacterOverviewSerializer#: Gets only a few specific fields from the model.
+| [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:
 | **name** | _description_ | [underline]#in#: | [underline]#out#:

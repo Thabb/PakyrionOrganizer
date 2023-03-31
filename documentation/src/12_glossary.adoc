@@ -1,7 +1,7 @@
 [[section-glossary]]
 == Glossary
 
-[cols="e,2e" options="header"]
+[cols="1,2e" options="header"]
 |===
 |Term |Definition
 
@@ -13,4 +13,17 @@
 
 |User
 |General term for everyone that uses the Organizer service.
+|===
+
+[cols="1,2e" options="header"]
+|===
+|Term |Definition
+
+|docker-compose up --build
+|Starts all docker containers
+
+|docker-compose run --rm backend python manage.py makemigrations
+
+docker-compose run --rm backend python manage.py migrate
+|Makes migrations in docker.
 |===
