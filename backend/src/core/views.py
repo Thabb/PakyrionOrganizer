@@ -1,8 +1,44 @@
+from django.contrib.auth import authenticate, login, logout
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.contrib.auth.models import User as PermissionUser
 from core.models import Character
 from core.serializers import CharacterSerializer, CharacterOverviewSerializer
+
+
+@api_view(["POST"])
+def register_user(request):
+    username = request.data["username"]
+    first_name = request.data["firstname"]
+    last_name = request.data["lastname"]
+    email = request.data["email"]
+    password = request.data["password"]
+
+    new_user = PermissionUser.objects.create_user(username=username, email=email, password=password)
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.save()
+    return Response()
+
+
+@api_view(["POST"])
+def log_in_user(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return Response(status=200)
+    else:
+        return Response(status=404)
+
+
+@api_view(["POST"])
+def log_out_user(request):
+    logout(request)
+    return Response(status=200)
 
 
 @api_view(["GET"])
