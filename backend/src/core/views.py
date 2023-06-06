@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from django.contrib.auth.models import User as PermissionUser
+from django.http import JsonResponse
 from core.models import Character
 from core.serializers import CharacterSerializer, CharacterOverviewSerializer
 
@@ -37,9 +38,11 @@ def log_in_user(request):
 
 @api_view(["POST"])
 def log_out_user(request):
-    print(request.user)
     logout(request)
-    return Response(status=200)
+    response = JsonResponse({'message': 'Logout erfolgreich'})
+    response.delete_cookie('csrftoken')
+    response.delete_cookie('sessionid')
+    return response
 
 
 @api_view(["GET"])
