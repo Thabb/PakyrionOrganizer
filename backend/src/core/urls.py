@@ -4,8 +4,8 @@ from core import views
 urlpatterns = [
     # authentication APIs
     path('login/', views.log_in_user, name='login'),
-    path('logout/', views.log_in_user, name='logout'),
-    path('register/', views.log_in_user, name='register'),
+    path('logout/', views.log_out_user, name='logout'),
+    path('register/', views.register_user, name='register'),
 
     # character APIs
     path('character_overview/<user_id>', views.get_character_overview, name='character_overview'),

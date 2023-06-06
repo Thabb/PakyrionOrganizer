@@ -25,8 +25,8 @@ def register_user(request):
 
 @api_view(["POST"])
 def log_in_user(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.data['username']
+    password = request.data['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
@@ -37,6 +37,7 @@ def log_in_user(request):
 
 @api_view(["POST"])
 def log_out_user(request):
+    print(request.user)
     logout(request)
     return Response(status=200)
 
