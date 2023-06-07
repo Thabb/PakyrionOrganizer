@@ -55,90 +55,94 @@ export default function FrontPage() {
       <h1>Front Page</h1>
       <h2>Registrierung</h2>
       <table>
-        <tr>
-          <th>Benutzername:</th>
-          <td>
-            <input
-              type="text"
-              value={registerUsername}
-              onChange={(e) => setRegisterUsername(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>Email:</th>
-          <td>
-            <input
-              type="text"
-              value={registerEmail}
-              onChange={(e) => setRegisterEmail(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>Vorname:</th>
-          <td>
-            <input
-              type="text"
-              value={registerFirstName}
-              onChange={(e) => setRegisterFirstName(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>Nachname:</th>
-          <td>
-            <input
-              type="text"
-              value={registerLastName}
-              onChange={(e) => setRegisterLastName(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>Password:</th>
-          <td>
-            <input
-              type="text"
-              value={registerPassword}
-              onChange={(e) => setRegisterPassword(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button onClick={registerNewUser}>Registrieren</button>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <th>Benutzername:</th>
+            <td>
+              <input
+                type="text"
+                value={registerUsername}
+                onChange={(e) => setRegisterUsername(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Email:</th>
+            <td>
+              <input
+                type="text"
+                value={registerEmail}
+                onChange={(e) => setRegisterEmail(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Vorname:</th>
+            <td>
+              <input
+                type="text"
+                value={registerFirstName}
+                onChange={(e) => setRegisterFirstName(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Nachname:</th>
+            <td>
+              <input
+                type="text"
+                value={registerLastName}
+                onChange={(e) => setRegisterLastName(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Password:</th>
+            <td>
+              <input
+                type="text"
+                value={registerPassword}
+                onChange={(e) => setRegisterPassword(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button onClick={registerNewUser}>Registrieren</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <h2>Einloggen</h2>
       <table>
-        <tr>
-          <th>Benutzername:</th>
-          <td>
-            <input
-              type="text"
-              value={loginUsername}
-              onChange={(e) => setLoginUsername(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>Passwort:</th>
-          <td>
-            <input
-              type="text"
-              value={loginPassword}
-              onChange={(e) => setLoginPassword(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button onClick={loginUser}>Einloggen</button>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <th>Benutzername:</th>
+            <td>
+              <input
+                type="text"
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Passwort:</th>
+            <td>
+              <input
+                type="text"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button onClick={loginUser}>Einloggen</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <h2>Ausloggen</h2>
       <button onClick={logoutUser}>Ausloggen</button>
