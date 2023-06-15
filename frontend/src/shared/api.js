@@ -21,7 +21,6 @@ function getCookie(name) {
   return cookieValue;
 }
 
-console.log(getCookie('csrftoken'));
 axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
 const API = axios.create({

@@ -10,6 +10,7 @@ urlpatterns = [
 
     # user_data APIs
     path('user_data/', views.get_user_data, name='user_data'),
+    path('user_data_save/', views.save_user_data, name='save_user_data'),
 
     # character APIs
     path('character_overview/', views.get_character_overview, name='character_overview'),

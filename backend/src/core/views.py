@@ -70,6 +70,28 @@ def get_user_data(request):
     return Response(response_data)
 
 
+@api_view(["POST"])
+def save_user_data(request):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    user_data = UserData.objects.filter(user_id=request.user.id)
+
+    if user_data:
+        # check if the character belongs to the user
+        if user_data.first().user_id.id != request.user.id:
+            return Response(status=403)
+
+        user_data.update(**request.data)
+    else:
+        new_user_data = user_data.create(**request.data)
+        new_user_data.user_id = request.user
+        new_user_data.save()
+
+    return Response(status=200)
+
+
 # --------------------------------------------------------------------------------------------------------
 # Character APIs
 # --------------------------------------------------------------------------------------------------------

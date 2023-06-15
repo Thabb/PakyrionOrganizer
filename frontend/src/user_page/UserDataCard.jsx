@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import API from '../shared/api';
+import { Button } from 'react-bootstrap';
 
 /**
  * ad
@@ -50,12 +51,17 @@ export default function UserDataCard() {
     });
   };
 
+  const saveUserData = () => {
+    API.post('/api/user_data_save/', formData).then((response) => console.log(response));
+  };
+
   return (
     <>
       <h2>Benutzerdetails</h2>
       <table>
         <tbody>{generateUserDataPresentation()}</tbody>
       </table>
+      <Button onClick={saveUserData}>Speichern!</Button>
     </>
   );
 }
