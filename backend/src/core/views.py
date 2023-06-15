@@ -46,6 +46,11 @@ def log_out_user(request):
 
 
 @api_view(["GET"])
+def get_current_user(request):
+    return Response({'user': str(request.user)})
+
+
+@api_view(["GET"])
 def get_character_overview(request):
     # check if user is authenticated and session is not expired
     if not request.user.is_authenticated or not request.session.session_key:

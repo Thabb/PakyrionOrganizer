@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../shared/api';
 import { Link } from 'react-router-dom';
 
@@ -18,6 +18,14 @@ export default function FrontPage() {
 
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+
+  useEffect(() => {
+    API.get('/api/current_user/')
+      .then((response) => {
+        setUsername(response.data.user);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const registerNewUser = () => {
     const payload = {
@@ -47,12 +55,13 @@ export default function FrontPage() {
     API.post('/api/logout/').then((response) => {
       console.log(response);
       if (response.status === 200) setUsername('nicht eingeloggt');
+      if (response.status === 200) setUsername('-');
     });
   };
 
   return (
     <>
-      {username}
+      Eingeloggt als: {username === 'AnonymousUser' ? '-' : username}
       <h1>Front Page</h1>
       <Link to={'/user/'}>User Profil</Link>
       <h2>Registrierung</h2>
@@ -115,7 +124,6 @@ export default function FrontPage() {
           </tr>
         </tbody>
       </table>
-
       <h2>Einloggen</h2>
       <table>
         <tbody>

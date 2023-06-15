@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/', views.log_in_user, name='login'),
     path('logout/', views.log_out_user, name='logout'),
     path('register/', views.register_user, name='register'),
+    path('current_user/', views.get_current_user, name='current_user'),
 
     # character APIs
     path('character_overview/', views.get_character_overview, name='character_overview'),
