@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import CharacterCard from './CharacterCard';
 
 /**
@@ -7,11 +6,10 @@ import CharacterCard from './CharacterCard';
  * @constructor
  */
 export default function UserPage() {
-  const { userId } = useParams();
   return (
     <>
       <h1>User Page</h1>
-      <CharacterCard userId={userId} />
+      <CharacterCard />
     </>
   );
 }

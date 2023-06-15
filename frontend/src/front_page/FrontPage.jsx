@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import API from '../shared/api';
+import { Link } from 'react-router-dom';
 
 /**
  *
@@ -53,6 +54,7 @@ export default function FrontPage() {
     <>
       {username}
       <h1>Front Page</h1>
+      <Link to={'/user/'}>User Profil</Link>
       <h2>Registrierung</h2>
       <table>
         <tbody>

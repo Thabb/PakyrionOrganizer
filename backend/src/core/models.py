@@ -1,12 +1,9 @@
 from django.db import models
-
-
-class User(models.Model):
-    name = models.CharField(max_length=255)
+from django.contrib.auth.models import User as PermissionUser
 
 
 class Character(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
+    user_id = models.ForeignKey(PermissionUser, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
 
     name = models.CharField(max_length=255, default="")
     group = models.CharField(max_length=255, default="")

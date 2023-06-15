@@ -5,7 +5,7 @@ from core.models import Character
 class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        exclude = ('id', 'user_id')
+        exclude = ('id',)
 
 
 class CharacterOverviewSerializer(serializers.ModelSerializer):
