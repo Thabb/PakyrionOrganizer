@@ -82,7 +82,7 @@ def save_character(request, character_id):
     character = Character.objects.filter(pk=character_id)
 
     # check if the character belongs to the user
-    if character.user_id.id != request.user.id:
+    if character.first().user_id.id != request.user.id:
         return Response(status=403)
 
     if character:
@@ -123,7 +123,7 @@ def delete_character(request, character_id):
     character = Character.objects.filter(pk=character_id)
 
     # check if the character belongs to the user
-    if character.user_id.id != request.user.id:
+    if character.first().user_id.id != request.user.id:
         return Response(status=403)
 
     if character:
