@@ -15,7 +15,7 @@ function App() {
       <main>
         <Routes>
           <Route exact path="/" element={<FrontPage />} />
-          <Route path="/user/:userId" element={<UserPage />} />
+          <Route path="/user/" element={<UserPage />} />
           <Route path="/character/:characterId" element={<CharacterPage />} />
         </Routes>
       </main>

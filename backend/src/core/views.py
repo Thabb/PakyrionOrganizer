@@ -1,29 +1,90 @@
+from django.contrib.auth import authenticate, login, logout
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.contrib.auth.models import User as PermissionUser
+from django.http import JsonResponse
 from core.models import Character
 from core.serializers import CharacterSerializer, CharacterOverviewSerializer
 
 
+@api_view(["POST"])
+def register_user(request):
+    username = request.data["username"]
+    first_name = request.data["firstname"]
+    last_name = request.data["lastname"]
+    email = request.data["email"]
+    password = request.data["password"]
+
+    new_user = PermissionUser.objects.create_user(username=username, email=email, password=password)
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.save()
+    return Response()
+
+
+@api_view(["POST"])
+def log_in_user(request):
+    username = request.data['username']
+    password = request.data['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return Response(status=200)
+    else:
+        return Response(status=404)
+
+
+@api_view(["POST"])
+def log_out_user(request):
+    logout(request)
+    response = JsonResponse({'message': 'Logout erfolgreich'})
+    response.delete_cookie('csrftoken')
+    response.delete_cookie('sessionid')
+    return response
+
+
 @api_view(["GET"])
-def get_character_overview(_, user_id):
-    character_overview_data = Character.objects.filter(user_id=user_id)
+def get_character_overview(request):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    character_overview_data = Character.objects.filter(user_id=request.user.id)
     response_data = CharacterOverviewSerializer(character_overview_data, many=True).data
 
     return Response(response_data)
 
 
 @api_view(["GET"])
-def get_character(_, character_id):
-    character_data = Character.objects.get(pk=character_id)
-    response_data = CharacterSerializer(character_data).data
+def get_character(request, character_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
 
-    return Response(response_data)
+    character = Character.objects.get(pk=character_id)
+
+    # check if the character belongs to the user
+    if character.user_id.id == request.user.id:
+        response_data = CharacterSerializer(character).data
+        return Response(response_data)
+
+    return Response(status=403)
 
 
 @api_view(["POST"])
 def save_character(request, character_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
     character = Character.objects.filter(pk=character_id)
+
+    # check if the character belongs to the user
+    if character.first().user_id.id != request.user.id:
+        return Response(status=403)
+
     if character:
         character.update(**request.data)
     else:
@@ -34,11 +95,18 @@ def save_character(request, character_id):
 
 @api_view(["POST"])
 def create_character(request):
-    character_name = request.data["name"]
-    user_id = request.data["user_id"]
+    print(request.user)
+    print(request.user.id)
 
-    serializer = CharacterSerializer(data={"user_id": user_id, "name": character_name})
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    character_name = request.data["name"]
+
+    serializer = CharacterSerializer(data={"user_id": request.user.id, "name": character_name})
     if serializer.is_valid():
+        print(serializer.validated_data)
         serializer.save()
     else:
         return Response(status=404)
@@ -47,8 +115,17 @@ def create_character(request):
 
 
 @api_view(["POST"])
-def delete_character(_, character_id):
+def delete_character(request, character_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
     character = Character.objects.filter(pk=character_id)
+
+    # check if the character belongs to the user
+    if character.first().user_id.id != request.user.id:
+        return Response(status=403)
+
     if character:
         character.delete()
     else:

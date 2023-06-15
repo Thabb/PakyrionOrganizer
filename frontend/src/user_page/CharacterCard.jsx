@@ -1,24 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
-import * as PropTypes from 'prop-types';
 import API from '../shared/api';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 /**
  *
- * @param {string} userId
  * @return {JSX.Element}
  * @constructor
  */
-export default function CharacterCard({ userId }) {
+export default function CharacterCard() {
   const [characterData, setCharacterData] = useState([]);
   const [newCharacterName, setNewCharacterName] = useState('');
   const [reload, setReload] = useState(false);
 
   // API call to get data
   useEffect(() => {
-    API.get(`/api/character_overview/${userId}`)
+    API.get('/api/character_overview/')
       .then((response) => {
         setCharacterData(response.data);
         setReload(false);
@@ -51,8 +49,8 @@ export default function CharacterCard({ userId }) {
   });
 
   const createNewCharacter = () => {
-    API.post('/api/character_create/', { name: newCharacterName, user_id: userId }).then(
-      (response) => console.log(response)
+    API.post('/api/character_create/', { name: newCharacterName }).then((response) =>
+      console.log(response)
     );
     setReload(true);
   };
@@ -112,6 +110,4 @@ export default function CharacterCard({ userId }) {
     </>
   );
 }
-CharacterCard.propTypes = {
-  userId: PropTypes.string.isRequired
-};
+CharacterCard.propTypes = {};
