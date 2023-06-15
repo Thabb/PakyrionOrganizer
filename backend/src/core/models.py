@@ -11,3 +11,12 @@ class Character(models.Model):
     faith = models.CharField(max_length=255, default="")
     age = models.CharField(max_length=255, default="")
     family = models.CharField(max_length=255, default="")
+
+
+class UserData(models.Model):
+    user_id = models.ForeignKey(PermissionUser, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
+
+    first_name = models.CharField(max_length=255, default="")
+    last_name = models.CharField(max_length=255, default="")
+    birth_date = models.DateField()
+    allergies = models.CharField(max_length=1023, default="")

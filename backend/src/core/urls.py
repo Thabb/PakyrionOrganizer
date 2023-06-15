@@ -8,6 +8,9 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('current_user/', views.get_current_user, name='current_user'),
 
+    # user_data APIs
+    path('user_data/', views.get_user_data, name='user_data'),
+
     # character APIs
     path('character_overview/', views.get_character_overview, name='character_overview'),
     path('character/<character_id>', views.get_character, name='character'),

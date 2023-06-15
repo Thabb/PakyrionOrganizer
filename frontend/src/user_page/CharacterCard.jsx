@@ -57,7 +57,7 @@ export default function CharacterCard() {
 
   return (
     <>
-      <p>Hier könnte ihre Werbung stehen</p>
+      <h2>Charakter Übersicht</h2>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => {

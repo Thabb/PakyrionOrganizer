@@ -5,9 +5,13 @@ from rest_framework.response import Response
 
 from django.contrib.auth.models import User as PermissionUser
 from django.http import JsonResponse
-from core.models import Character
-from core.serializers import CharacterSerializer, CharacterOverviewSerializer
+from core.models import Character, UserData
+from core.serializers import CharacterSerializer, CharacterOverviewSerializer, UserDataSerializer
 
+
+# --------------------------------------------------------------------------------------------------------
+# Authentication APIs
+# --------------------------------------------------------------------------------------------------------
 
 @api_view(["POST"])
 def register_user(request):
@@ -49,6 +53,26 @@ def log_out_user(request):
 def get_current_user(request):
     return Response({'user': str(request.user)})
 
+
+# --------------------------------------------------------------------------------------------------------
+# UserData APIs
+# --------------------------------------------------------------------------------------------------------
+
+@api_view(["GET"])
+def get_user_data(request):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    user_data = UserData.objects.filter(user_id=request.user.id).first()
+    response_data = UserDataSerializer(user_data).data
+
+    return Response(response_data)
+
+
+# --------------------------------------------------------------------------------------------------------
+# Character APIs
+# --------------------------------------------------------------------------------------------------------
 
 @api_view(["GET"])
 def get_character_overview(request):

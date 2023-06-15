@@ -54,7 +54,6 @@ export default function FrontPage() {
   const logoutUser = () => {
     API.post('/api/logout/').then((response) => {
       console.log(response);
-      if (response.status === 200) setUsername('nicht eingeloggt');
       if (response.status === 200) setUsername('-');
     });
   };

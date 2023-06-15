@@ -40,7 +40,7 @@ export default function CharacterPage() {
           <td key={`character-table-${value}`}>
             <input
               type="text"
-              value={formData[key] || value}
+              value={formData[key] || value || ''}
               onChange={(e) => {
                 setFormData((values) => ({ ...values, [key]: e.target.value }));
               }}
