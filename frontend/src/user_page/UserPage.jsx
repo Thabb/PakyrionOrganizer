@@ -4,7 +4,7 @@ import CharacterCard from './CharacterCard';
  *
  * @return {JSX.Element}
  * @constructor
- */
+ * */
 export default function UserPage() {
   return (
     <>
