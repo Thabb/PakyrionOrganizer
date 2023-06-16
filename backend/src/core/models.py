@@ -20,3 +20,7 @@ class UserData(models.Model):
     last_name = models.CharField(max_length=255, default="")
     birth_date = models.DateField()
     allergies = models.CharField(max_length=1023, default="")
+
+
+class Convention(models.Model):
+    name = models.CharField(max_length=511, default="")

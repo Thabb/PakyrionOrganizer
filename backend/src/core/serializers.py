@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Character, UserData
+from core.models import Character, UserData, Convention
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -17,4 +17,10 @@ class CharacterOverviewSerializer(serializers.ModelSerializer):
 class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserData
+        exclude = ('id',)
+
+
+class ConventionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Convention
         exclude = ('id',)
