@@ -57,11 +57,7 @@ def get_current_user(request):
 
 @api_view(["GET"])
 def is_user_admin(request):
-    print(request.user.is_staff)
-
-    if request.user.is_staff:
-        return Response({'is_admin': True})
-    return Response({'is_admin': False})
+    return Response({'is_admin': request.user.is_staff})
 
 
 # --------------------------------------------------------------------------------------------------------
