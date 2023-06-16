@@ -194,10 +194,8 @@ def delete_character(request, character_id):
 @api_view(["GET"])
 def get_convention_overview(request):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key:
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
         return Response(status=403)
-
-    # TODO: check if user is admin
 
     convention_overview_data = Convention.objects.all()
     response_data = ConventionOverviewSerializer(convention_overview_data, many=True).data
@@ -208,10 +206,8 @@ def get_convention_overview(request):
 @api_view(["GET"])
 def get_convention(request, convention_id):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key:
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
         return Response(status=403)
-
-    # TODO: check if user is admin
 
     convention = Convention.objects.get(pk=convention_id)
 
@@ -222,10 +218,8 @@ def get_convention(request, convention_id):
 @api_view(["POST"])
 def save_convention(request, convention_id):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key:
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
         return Response(status=403)
-
-    # TODO: check if user is admin
 
     convention = Convention.objects.filter(pk=convention_id)
 
@@ -240,10 +234,8 @@ def save_convention(request, convention_id):
 @api_view(["POST"])
 def create_convention(request):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key:
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
         return Response(status=403)
-
-    # TODO: check if user is admin
 
     convention_name = request.data["name"]
 
@@ -259,10 +251,8 @@ def create_convention(request):
 @api_view(["POST"])
 def delete_convention(request, convention_id):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key:
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
         return Response(status=403)
-
-    # TODO: check if user is admin
 
     convention = Convention.objects.filter(pk=convention_id)
 
