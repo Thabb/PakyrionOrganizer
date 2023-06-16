@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
  */
 export default function FrontPage() {
   const [username, setUsername] = useState('nicht eingeloggt');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
@@ -23,6 +24,15 @@ export default function FrontPage() {
     API.get('/api/current_user/')
       .then((response) => {
         setUsername(response.data.user);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    API.get('/api/is_user_admin/')
+      .then((response) => {
+        setIsAdmin(response.data.is_admin);
+        console.log(isAdmin);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -62,7 +72,10 @@ export default function FrontPage() {
     <>
       Eingeloggt als: {username === 'AnonymousUser' ? '-' : username}
       <h1>Front Page</h1>
-      <Link to={'/user/'}>User Profil</Link>
+      <div>
+        <Link to={'/user/'}>User Profil</Link>
+      </div>
+      <div>{isAdmin ? <Link to={'/admin/'}>Admin Seite</Link> : null}</div>
       <h2>Registrierung</h2>
       <table>
         <tbody>
