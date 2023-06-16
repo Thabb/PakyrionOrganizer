@@ -32,7 +32,6 @@ export default function FrontPage() {
     API.get('/api/is_user_admin/')
       .then((response) => {
         setIsAdmin(response.data.is_admin);
-        console.log(isAdmin);
       })
       .catch((error) => console.log(error));
   }, []);
