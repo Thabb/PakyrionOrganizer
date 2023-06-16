@@ -20,5 +20,9 @@ urlpatterns = [
     path('character_delete/<character_id>', views.delete_character, name='delete_character'),
 
     # convention APIs
-
+    path('convention_overview/', views.get_convention_overview, name='convention_overview'),
+    path('convention/<convention_id>', views.get_convention, name='convention'),
+    path('convention_save/<convention_id>', views.save_convention, name='save_convention'),
+    path('convention_create/', views.create_character, name='create_convention'),
+    path('convention_delete/<convention_id>', views.delete_convention, name='delete_convention'),
 ]
