@@ -7,6 +7,7 @@ urlpatterns = [
     path('logout/', views.log_out_user, name='logout'),
     path('register/', views.register_user, name='register'),
     path('current_user/', views.get_current_user, name='current_user'),
+    path('is_user_admin/', views.is_user_admin, name='is_user_admin'),
 
     # user_data APIs
     path('user_data/', views.get_user_data, name='user_data'),
