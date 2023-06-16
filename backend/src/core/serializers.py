@@ -24,3 +24,9 @@ class ConventionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Convention
         exclude = ('id',)
+
+
+class ConventionOverviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Convention
+        fields = ('id', 'name')

@@ -5,8 +5,9 @@ from rest_framework.response import Response
 
 from django.contrib.auth.models import User as PermissionUser
 from django.http import JsonResponse
-from core.models import Character, UserData
-from core.serializers import CharacterSerializer, CharacterOverviewSerializer, UserDataSerializer
+from core.models import Character, UserData, Convention
+from core.serializers import CharacterSerializer, CharacterOverviewSerializer, UserDataSerializer, ConventionSerializer, \
+    ConventionOverviewSerializer
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -146,9 +147,6 @@ def save_character(request, character_id):
 
 @api_view(["POST"])
 def create_character(request):
-    print(request.user)
-    print(request.user.id)
-
     # check if user is authenticated and session is not expired
     if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
@@ -157,7 +155,6 @@ def create_character(request):
 
     serializer = CharacterSerializer(data={"user_id": request.user.id, "name": character_name})
     if serializer.is_valid():
-        print(serializer.validated_data)
         serializer.save()
     else:
         return Response(status=404)
@@ -179,6 +176,93 @@ def delete_character(request, character_id):
 
     if character:
         character.delete()
+    else:
+        return Response(status=404)
+
+    return Response(status=200)
+
+
+# --------------------------------------------------------------------------------------------------------
+# Convention APIs
+# --------------------------------------------------------------------------------------------------------#
+
+@api_view(["GET"])
+def get_convention_overview(request):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    # TODO: check if user is admin
+
+    convention_overview_data = Convention.objects.all()
+    response_data = ConventionOverviewSerializer(convention_overview_data, many=True).data
+
+    return Response(response_data)
+
+
+@api_view(["GET"])
+def get_convention(request, convention_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    # TODO: check if user is admin
+
+    convention = Convention.objects.get(pk=convention_id)
+
+    response_data = ConventionSerializer(convention).data
+    return Response(response_data)
+
+
+@api_view(["POST"])
+def save_convention(request, convention_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    # TODO: check if user is admin
+
+    convention = Convention.objects.filter(pk=convention_id)
+
+    if convention:
+        convention.update(**request.data)
+    else:
+        return Response(status=404)
+
+    return Response(status=200)
+
+
+@api_view(["POST"])
+def create_convention(request):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    # TODO: check if user is admin
+
+    convention_name = request.data["name"]
+
+    serializer = ConventionSerializer(data={"name": convention_name})
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(status=404)
+
+    return Response(status=200)
+
+
+@api_view(["POST"])
+def delete_convention(request, convention_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    # TODO: check if user is admin
+
+    convention = Convention.objects.filter(pk=convention_id)
+
+    if convention:
+        convention.delete()
     else:
         return Response(status=404)
 
