@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Character, UserData, Convention
+from core.models import Character, UserData, Convention, ConventionSignUp
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -30,3 +30,9 @@ class ConventionOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Convention
         fields = ('id', 'name')
+
+
+class ConventionSignUpSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConventionSignUp
+        exclude = ('id',)
