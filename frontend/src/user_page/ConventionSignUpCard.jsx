@@ -64,7 +64,14 @@ export default function ConventionSignUpCard() {
                       {...cell.getCellProps}
                       key={`convention-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
                       {cell.render('Cell')}
-                      <Link to={'/signup/'}>Anmelden</Link>
+                      <Link
+                        to={`/signup/${
+                          conventionData.find((convention) => convention['name'] === cell.value)[
+                            'id'
+                          ]
+                        }`}>
+                        Anmelden
+                      </Link>
                     </td>
                   );
                 })}
