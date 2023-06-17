@@ -4,6 +4,7 @@ import UserPage from './user_page/UserPage';
 import CharacterPage from './character_page/CharacterPage';
 import AdminPage from './convention_page/AdminPage';
 import ConventionPage from './ConventionPage/ConventionPage';
+import ConventionSignUpPage from './ConventionSignUpPage/ConventionSignUpPage';
 
 /**
  *
@@ -21,6 +22,7 @@ function App() {
           <Route path="/character/:characterId" element={<CharacterPage />} />
           <Route path="/admin/" element={<AdminPage />} />
           <Route path="/convention/:conventionId" element={<ConventionPage />} />
+          <Route path="/signup/:conventionId" element={<ConventionSignUpPage />} />
         </Routes>
       </main>
     </Router>

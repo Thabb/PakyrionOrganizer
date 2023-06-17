@@ -194,7 +194,7 @@ def delete_character(request, character_id):
 @api_view(["GET"])
 def get_convention_overview(request):
     # check if user is authenticated and session is not expired
-    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
+    if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
 
     convention_overview_data = Convention.objects.all()

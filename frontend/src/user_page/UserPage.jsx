@@ -1,5 +1,6 @@
 import CharacterCard from './CharacterCard';
 import UserDataCard from './UserDataCard';
+import ConventionSignUpCard from './ConventionSignUpCard';
 
 /**
  *
@@ -14,6 +15,8 @@ export default function UserPage() {
       <UserDataCard />
 
       <CharacterCard />
+
+      <ConventionSignUpCard />
     </>
   );
 }
