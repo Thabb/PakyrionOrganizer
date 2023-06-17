@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from django.contrib.auth.models import User as PermissionUser
 from django.http import JsonResponse
-from core.models import Character, UserData, Convention
+from core.models import Character, UserData, Convention, ConventionSignUp
 from core.serializers import CharacterSerializer, CharacterOverviewSerializer, UserDataSerializer, ConventionSerializer, \
     ConventionOverviewSerializer
 
@@ -189,7 +189,7 @@ def delete_character(request, character_id):
 
 # --------------------------------------------------------------------------------------------------------
 # Convention APIs
-# --------------------------------------------------------------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------
 
 @api_view(["GET"])
 def get_convention_overview(request):
@@ -260,5 +260,27 @@ def delete_convention(request, convention_id):
         convention.delete()
     else:
         return Response(status=404)
+
+    return Response(status=200)
+
+
+# --------------------------------------------------------------------------------------------------------
+# Convention Sign Up APIs
+# --------------------------------------------------------------------------------------------------------
+
+@api_view(["POST"])
+def sign_up_for_convention(request, convention_id):
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    characters = request.data["characters"]
+
+    convention = Convention.objects.filter(pk=convention_id)
+    convention_sign_up = ConventionSignUp.objects.create({
+        "convention": convention,
+        "user": request.user,
+        "characters": characters
+    })
+    convention.save()
 
     return Response(status=200)
