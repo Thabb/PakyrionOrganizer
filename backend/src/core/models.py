@@ -29,5 +29,5 @@ class Convention(models.Model):
 class ConventionSignUp(models.Model):
     convention = models.ForeignKey(Convention, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT CONVENTION
     user = models.ForeignKey(PermissionUser, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
-    characters = models.ManyToManyField(Character)
+    characters = models.CharField(max_length=511, default="")
 

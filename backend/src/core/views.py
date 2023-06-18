@@ -7,7 +7,7 @@ from django.contrib.auth.models import User as PermissionUser
 from django.http import JsonResponse
 from core.models import Character, UserData, Convention, ConventionSignUp
 from core.serializers import CharacterSerializer, CharacterOverviewSerializer, UserDataSerializer, ConventionSerializer, \
-    ConventionOverviewSerializer
+    ConventionOverviewSerializer, ConventionSignUpSerializer
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -273,14 +273,17 @@ def sign_up_for_convention(request, convention_id):
     if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
 
-    characters = request.data["characters"]
+    character_ids = ",".join(str(char_id) for char_id in request.data["characterIds"])
 
-    convention = Convention.objects.filter(pk=convention_id)
-    convention_sign_up = ConventionSignUp.objects.create({
-        "convention": convention,
-        "user": request.user,
-        "characters": characters
+    serializer = ConventionSignUpSerializer(data={
+        "convention": convention_id,
+        "user": request.user.id,
+        "characters": character_ids
     })
-    convention.save()
+
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(status=500)
 
     return Response(status=200)
