@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom';
 export default function ConventionSignUpPage() {
   const [characterData, setCharacterData] = useState([]);
   const [conventionCharacters, setConventionCharacters] = useState([]);
+  const [conventionSignUpStatus, setConventionSignUpStatus] = useState(false);
+  const [conventionSignUpExists, setConventionSignUpExists] = useState(false);
   const { conventionId } = useParams();
 
   useEffect(() => {
@@ -20,6 +22,15 @@ export default function ConventionSignUpPage() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    API.get(`/api/convention_signup_get/${conventionId}`)
+      .then((response) => {
+        if (response.data.user) setConventionSignUpExists(true);
+        setConventionSignUpStatus(response.data.status);
+      })
+      .catch((error) => console.log(error));
+  });
 
   const columns = useMemo(
     () => [
@@ -65,58 +76,68 @@ export default function ConventionSignUpPage() {
   return (
     <>
       <h1>Convention Anmeldung</h1>
-      Mit welchen Charakteren willst du dich für die Convention anmelden?
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => {
-            return (
-              <tr {...headerGroup.getHeaderGroupProps} key={'character-overview-table-head-row'}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps}
-                    key={`character-overview-table-head-cell-${column.id}`}>
-                    {column.render('Header')}
-                  </th>
-                ))}
-              </tr>
-            );
-          })}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps} key={`character-overview-table-body-row-${row.id}`}>
-                {row.cells.map((cell) => {
-                  if (cell.column.id === 'id') return;
-                  return (
-                    <td
-                      {...cell.getCellProps}
-                      key={`character-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-                <td>
-                  <Button
-                    onClick={() => {
-                      addCharacterToSignUp(row.values.id);
-                    }}>
-                    Hinzufügen
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      removeCharacterFromSignUp(row.values.id);
-                    }}>
-                    Entfernen
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <Button onClick={createNewConventionSignUp}>Anmeldung abschicken</Button>
+
+      <div>
+        Mit welchen Charakteren willst du dich für die Convention anmelden?
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => {
+              return (
+                <tr {...headerGroup.getHeaderGroupProps} key={'character-overview-table-head-row'}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      {...column.getHeaderProps}
+                      key={`character-overview-table-head-cell-${column.id}`}>
+                      {column.render('Header')}
+                    </th>
+                  ))}
+                </tr>
+              );
+            })}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps} key={`character-overview-table-body-row-${row.id}`}>
+                  {row.cells.map((cell) => {
+                    if (cell.column.id === 'id') return;
+                    return (
+                      <td
+                        {...cell.getCellProps}
+                        key={`character-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
+                        {cell.render('Cell')}
+                      </td>
+                    );
+                  })}
+                  <td>
+                    <Button
+                      onClick={() => {
+                        addCharacterToSignUp(row.values.id);
+                      }}>
+                      Hinzufügen
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        removeCharacterFromSignUp(row.values.id);
+                      }}>
+                      Entfernen
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <Button onClick={createNewConventionSignUp}>Anmeldung abschicken</Button>
+      </div>
+      <div>
+        {conventionSignUpExists ? (
+          <p>Status der Anmeldung: {conventionSignUpStatus ? 'Angenommen' : 'Abgeschickt'}</p>
+        ) : (
+          'Noch kein Anmeldung abgeschickt!'
+        )}
+      </div>
     </>
   );
 }

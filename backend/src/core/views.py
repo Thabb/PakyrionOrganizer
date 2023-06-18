@@ -294,7 +294,7 @@ def get_convention_signup(request, convention_id):
     if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
 
-    convention_signup = ConventionSignUp.objects.get(convention=convention_id, user=request.user.id)
+    convention_signup = ConventionSignUp.objects.filter(convention=convention_id, user=request.user.id).first()
 
     response_data = ConventionSignUpSerializer(convention_signup).data
     return Response(response_data)
