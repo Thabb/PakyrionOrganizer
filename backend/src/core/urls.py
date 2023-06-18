@@ -32,4 +32,6 @@ urlpatterns = [
     path('convention_signup_get/<convention_id>', views.get_convention_signup, name='get_convention_signup'),
     path('convention_signup_delete/<convention_id>', views.delete_convention_signup, name='delete_convention_signup'),
     path('convention_signup_overview/<convention_id>', views.get_convention_signup_overview, name='get_convention_signup_overview'),
+    path('convention_signup_approve/<convention_signup_id>', views.approve_convention_signup, name='approve_convention_signup'),
+    path('convention_signup_disprove/<convention_signup_id>', views.disprove_convention_signup, name='disprove_convention_signup'),
 ]

@@ -36,7 +36,6 @@ export default function ConventionPage() {
     API.get(`/api/convention_signup_overview/${conventionId}`)
       .then((response) => {
         setConventionSignUpData(response.data);
-        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -64,21 +63,20 @@ export default function ConventionPage() {
   };
 
   const saveConventionData = () => {
-    API.post(`/api/convention_save/${conventionId}`, formData).then((response) =>
-      console.log(response)
-    );
+    API.post(`/api/convention_save/${conventionId}`).then((response) => console.log(response));
   };
 
   const deleteConvention = () => {
     API.post(`/api/convention_delete/${conventionId}`).then((response) => console.log(response));
-    const link = document.createElement('a');
-    link.setAttribute('href', 'javascript:history.back();');
-    link.click();
   };
 
   // columns for the convention signup table
   const columns = useMemo(
     () => [
+      {
+        Header: 'con_id',
+        accessor: 'id'
+      },
       {
         Header: 'ID',
         accessor: 'user.user_id'
@@ -99,6 +97,18 @@ export default function ConventionPage() {
     columns: columns,
     data: conventionSignUpData
   });
+
+  const approveSignUp = (signupId) => {
+    API.post(`/api/convention_signup_approve/${signupId}`).then((response) =>
+      console.log(response)
+    );
+  };
+
+  const disproveSignUp = (signupId) => {
+    API.post(`/api/convention_signup_disprove/${signupId}`).then((response) =>
+      console.log(response)
+    );
+  };
 
   return (
     <>
@@ -121,13 +131,16 @@ export default function ConventionPage() {
                 <tr
                   {...headerGroup.getHeaderGroupProps}
                   key={'convention-signup-overview-table-head-row'}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps}
-                      key={`convention-signup-overview-table-head-cell-${column.id}`}>
-                      {column.render('Header')}
-                    </th>
-                  ))}
+                  {headerGroup.headers.map((column) => {
+                    if (column.Header === 'con_id') return;
+                    return (
+                      <th
+                        {...column.getHeaderProps}
+                        key={`convention-signup-overview-table-head-cell-${column.id}`}>
+                        {column.render('Header')}
+                      </th>
+                    );
+                  })}
                 </tr>
               );
             })}
@@ -140,6 +153,7 @@ export default function ConventionPage() {
                   {...row.getRowProps}
                   key={`convention-signup-overview-table-body-row-${row.id}`}>
                   {row.cells.map((cell) => {
+                    if (cell.column.id === 'id') return;
                     return (
                       <td
                         {...cell.getCellProps}
@@ -148,6 +162,22 @@ export default function ConventionPage() {
                       </td>
                     );
                   })}
+                  <td>
+                    <Button
+                      onClick={() => {
+                        approveSignUp(row.values.id);
+                      }}>
+                      Bestätigen
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        disproveSignUp(row.values.id);
+                      }}>
+                      Ablehnen
+                    </Button>
+                  </td>
                 </tr>
               );
             })}

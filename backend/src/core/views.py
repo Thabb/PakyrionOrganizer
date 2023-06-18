@@ -335,3 +335,33 @@ def get_convention_signup_overview(request, convention_id):
         signup["user"] = UserDataSerializer(user_data).data
 
     return Response(response_data)
+
+
+@api_view(["POST"])
+def approve_convention_signup(request, convention_signup_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
+        return Response(status=403)
+
+    convention_signup = ConventionSignUp.objects.filter(pk=convention_signup_id)
+
+    if convention_signup:
+        convention_signup.update(status=True)
+    else:
+        return Response(status=404)
+    return Response(status=200)
+
+
+@api_view(["POST"])
+def disprove_convention_signup(request, convention_signup_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
+        return Response(status=403)
+
+    convention_signup = ConventionSignUp.objects.filter(pk=convention_signup_id)
+
+    if convention_signup:
+        convention_signup.delete()
+    else:
+        return Response(status=404)
+    return Response(status=200)

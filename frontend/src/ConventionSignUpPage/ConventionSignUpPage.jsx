@@ -106,13 +106,16 @@ export default function ConventionSignUpPage() {
                     <tr
                       {...headerGroup.getHeaderGroupProps}
                       key={'character-overview-table-head-row'}>
-                      {headerGroup.headers.map((column) => (
-                        <th
-                          {...column.getHeaderProps}
-                          key={`character-overview-table-head-cell-${column.id}`}>
-                          {column.render('Header')}
-                        </th>
-                      ))}
+                      {headerGroup.headers.map((column) => {
+                        if (column.Header === 'ID') return;
+                        return (
+                          <th
+                            {...column.getHeaderProps}
+                            key={`character-overview-table-head-cell-${column.id}`}>
+                            {column.render('Header')}
+                          </th>
+                        );
+                      })}
                     </tr>
                   );
                 })}

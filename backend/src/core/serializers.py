@@ -35,4 +35,4 @@ class ConventionOverviewSerializer(serializers.ModelSerializer):
 class ConventionSignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConventionSignUp
-        exclude = ('id',)
+        fields = '__all__'
