@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User as PermissionUser
 
@@ -18,7 +20,7 @@ class UserData(models.Model):
 
     first_name = models.CharField(max_length=255, default="")
     last_name = models.CharField(max_length=255, default="")
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True, blank=True)
     allergies = models.CharField(max_length=1023, default="")
 
 
@@ -31,4 +33,3 @@ class ConventionSignUp(models.Model):
     user = models.ForeignKey(PermissionUser, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
     characters = models.CharField(max_length=511, default="")
     status = models.BooleanField(default=False)
-

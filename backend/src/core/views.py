@@ -316,3 +316,22 @@ def delete_convention_signup(request, convention_id):
         return Response(status=404)
 
     return Response(status=200)
+
+
+@api_view(["GET"])
+def get_convention_signup_overview(request, convention_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key or not request.user.is_staff:
+        return Response(status=403)
+
+    convention_signups = ConventionSignUp.objects.filter(convention=convention_id)
+    response_data = ConventionSignUpSerializer(convention_signups, many=True).data
+
+    for signup in response_data:
+        characters = Character.objects.filter(pk__in=signup["characters"].split(","))
+        signup["characters"] = CharacterSerializer(characters, many=True).data
+
+        user_data = UserData.objects.filter(user_id=signup["user"]).first()
+        signup["user"] = UserDataSerializer(user_data).data
+
+    return Response(response_data)
