@@ -5,6 +5,7 @@ import CharacterPage from './character_page/CharacterPage';
 import AdminPage from './convention_page/AdminPage';
 import ConventionPage from './ConventionPage/ConventionPage';
 import ConventionSignUpPage from './ConventionSignUpPage/ConventionSignUpPage';
+import Header from './shared/Header';
 
 /**
  *
@@ -14,7 +15,7 @@ import ConventionSignUpPage from './ConventionSignUpPage/ConventionSignUpPage';
 function App() {
   return (
     <Router>
-      {/* PLACEHOLDER FOR HEADER*/}
+      <Header />
       <main>
         <Routes>
           <Route exact path="/" element={<FrontPage />} />
