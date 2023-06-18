@@ -29,5 +29,6 @@ urlpatterns = [
 
     # convention sign up APIs
     path('convention_signup/<convention_id>', views.sign_up_for_convention, name='convention_signup'),
-    path('convention_signup_get/<convention_id>', views.get_convention_signup, name='get_convention_signup')
+    path('convention_signup_get/<convention_id>', views.get_convention_signup, name='get_convention_signup'),
+    path('convention_signup_delete/<convention_id>', views.delete_convention_signup, name='delete_convention_signup'),
 ]

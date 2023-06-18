@@ -270,6 +270,7 @@ def delete_convention(request, convention_id):
 
 @api_view(["POST"])
 def sign_up_for_convention(request, convention_id):
+    # check if user is authenticated and session is not expired
     if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
 
@@ -291,6 +292,7 @@ def sign_up_for_convention(request, convention_id):
 
 @api_view(["GET"])
 def get_convention_signup(request, convention_id):
+    # check if user is authenticated and session is not expired
     if not request.user.is_authenticated or not request.session.session_key:
         return Response(status=403)
 
@@ -298,3 +300,19 @@ def get_convention_signup(request, convention_id):
 
     response_data = ConventionSignUpSerializer(convention_signup).data
     return Response(response_data)
+
+
+@api_view(["POST"])
+def delete_convention_signup(request, convention_id):
+    # check if user is authenticated and session is not expired
+    if not request.user.is_authenticated or not request.session.session_key:
+        return Response(status=403)
+
+    convention_signup = ConventionSignUp.objects.filter(convention=convention_id, user=request.user.id)
+
+    if convention_signup:
+        convention_signup.delete()
+    else:
+        return Response(status=404)
+
+    return Response(status=200)

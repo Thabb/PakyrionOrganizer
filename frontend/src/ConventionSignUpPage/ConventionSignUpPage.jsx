@@ -27,7 +27,11 @@ export default function ConventionSignUpPage() {
   useEffect(() => {
     API.get(`/api/convention_signup_get/${conventionId}`)
       .then((response) => {
-        if (response.data.user) setConventionSignUpExists(true);
+        if (response.data.user) {
+          setConventionSignUpExists(true);
+        } else {
+          setConventionSignUpExists(false);
+        }
         setConventionSignUpStatus(response.data.status);
         setReload(false);
       })
@@ -76,6 +80,13 @@ export default function ConventionSignUpPage() {
         setReload(true);
       }
     );
+  };
+
+  const deleteConventionSignUp = () => {
+    API.post(`/api/convention_signup_delete/${conventionId}`).then((response) => {
+      console.log(response);
+      setReload(true);
+    });
   };
 
   return (
@@ -146,7 +157,10 @@ export default function ConventionSignUpPage() {
       </div>
       <div>
         {conventionSignUpExists ? (
-          <p>Status der Anmeldung: {conventionSignUpStatus ? 'Angenommen' : 'Abgeschickt'}</p>
+          <div>
+            <p>Status der Anmeldung: {conventionSignUpStatus ? 'Angenommen' : 'Abgeschickt'}</p>
+            <Button onClick={deleteConventionSignUp}>Anmeldung löschen</Button>
+          </div>
         ) : (
           'Noch kein Anmeldung abgeschickt!'
         )}
