@@ -22,6 +22,8 @@ def register_user(request):
 
     new_user = PermissionUser.objects.create_user(username=username, email=email, password=password)
     new_user.save()
+    new_user_data = UserData.objects.create(user_id=new_user)
+    new_user_data.save()
     return Response()
 
 
