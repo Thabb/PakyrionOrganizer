@@ -8,14 +8,12 @@ import { Link } from 'react-router-dom';
  * @constructor
  */
 export default function FrontPage() {
-  const [username, setUsername] = useState('nicht eingeloggt');
+  const [userEmail, setUserEmail] = useState('-');
   const [isAdmin, setIsAdmin] = useState(false);
 
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
-  const [registerFirstName, setRegisterFirstName] = useState('');
-  const [registerLastName, setRegisterLastName] = useState('');
 
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -26,7 +24,7 @@ export default function FrontPage() {
   useEffect(() => {
     API.get('/api/current_user/')
       .then((response) => {
-        setUsername(response.data.user);
+        setUserEmail(response.data.user);
         setReloadCurrentUser(false);
       })
       .catch((error) => console.log(error));
@@ -45,8 +43,6 @@ export default function FrontPage() {
     const payload = {
       username: registerUsername,
       email: registerEmail,
-      firstname: registerFirstName,
-      lastname: registerLastName,
       password: registerPassword
     };
     API.post('/api/register/', payload).then((response) => {
@@ -84,7 +80,7 @@ export default function FrontPage() {
 
   return (
     <>
-      Eingeloggt als: {username === 'AnonymousUser' ? '-' : username}
+      Eingeloggt als: {userEmail === 'AnonymousUser' ? '-' : userEmail}
       <h1>Front Page</h1>
       <div>
         <Link to={'/user/'}>User Profil</Link>
@@ -94,7 +90,7 @@ export default function FrontPage() {
       <table>
         <tbody>
           <tr>
-            <th>Benutzername:</th>
+            <th>Username:</th>
             <td>
               <input
                 type="text"
@@ -110,26 +106,6 @@ export default function FrontPage() {
                 type="text"
                 value={registerEmail}
                 onChange={(e) => setRegisterEmail(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>Vorname:</th>
-            <td>
-              <input
-                type="text"
-                value={registerFirstName}
-                onChange={(e) => setRegisterFirstName(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>Nachname:</th>
-            <td>
-              <input
-                type="text"
-                value={registerLastName}
-                onChange={(e) => setRegisterLastName(e.target.value)}
               />
             </td>
           </tr>

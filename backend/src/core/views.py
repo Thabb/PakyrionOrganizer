@@ -17,14 +17,10 @@ from core.serializers import CharacterSerializer, CharacterOverviewSerializer, U
 @api_view(["POST"])
 def register_user(request):
     username = request.data["username"]
-    first_name = request.data["firstname"]
-    last_name = request.data["lastname"]
     email = request.data["email"]
     password = request.data["password"]
 
     new_user = PermissionUser.objects.create_user(username=username, email=email, password=password)
-    new_user.first_name = first_name
-    new_user.last_name = last_name
     new_user.save()
     return Response()
 
