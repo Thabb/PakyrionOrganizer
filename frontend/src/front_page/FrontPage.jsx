@@ -20,21 +20,26 @@ export default function FrontPage() {
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
+  const [reloadCurrentUser, setReloadCurrentUser] = useState(false);
+  const [reloadIsAdmin, setReloadIsAdmin] = useState(false);
+
   useEffect(() => {
     API.get('/api/current_user/')
       .then((response) => {
         setUsername(response.data.user);
+        setReloadCurrentUser(false);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [reloadCurrentUser]);
 
   useEffect(() => {
     API.get('/api/is_user_admin/')
       .then((response) => {
         setIsAdmin(response.data.is_admin);
+        setReloadIsAdmin(false);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [reloadIsAdmin]);
 
   const registerNewUser = () => {
     const payload = {
@@ -46,6 +51,10 @@ export default function FrontPage() {
     };
     API.post('/api/register/', payload).then((response) => {
       console.log(response);
+      if (response.status === 200) {
+        setReloadCurrentUser(true);
+        setReloadIsAdmin(true);
+      }
     });
   };
 
@@ -56,14 +65,20 @@ export default function FrontPage() {
     };
     API.post('/api/login/', payload).then((response) => {
       console.log(response);
-      if (response.status === 200) setUsername(loginUsername);
+      if (response.status === 200) {
+        setReloadCurrentUser(true);
+        setReloadIsAdmin(true);
+      }
     });
   };
 
   const logoutUser = () => {
     API.post('/api/logout/').then((response) => {
       console.log(response);
-      if (response.status === 200) setUsername('-');
+      if (response.status === 200) {
+        setReloadCurrentUser(true);
+        setReloadIsAdmin(true);
+      }
     });
   };
 
