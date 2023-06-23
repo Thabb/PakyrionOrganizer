@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
  * @constructor
  */
 export default function FrontPage() {
-  const [userEmail, setUserEmail] = useState('-');
+  const [username, setUsername] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
   const [registerUsername, setRegisterUsername] = useState('');
@@ -24,7 +24,7 @@ export default function FrontPage() {
   useEffect(() => {
     API.get('/api/current_user/')
       .then((response) => {
-        setUserEmail(response.data.user);
+        setUsername(response.data.user);
         setReloadCurrentUser(false);
       })
       .catch((error) => console.log(error));
@@ -80,84 +80,92 @@ export default function FrontPage() {
 
   return (
     <>
-      Eingeloggt als: {userEmail === 'AnonymousUser' ? '-' : userEmail}
+      Eingeloggt als: {username === 'AnonymousUser' ? '-' : username}
       <h1>Front Page</h1>
       <div>
         <Link to={'/user/'}>User Profil</Link>
       </div>
       <div>{isAdmin ? <Link to={'/admin/'}>Admin Seite</Link> : null}</div>
-      <h2>Registrierung</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Username:</th>
-            <td>
-              <input
-                type="text"
-                value={registerUsername}
-                onChange={(e) => setRegisterUsername(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>Email:</th>
-            <td>
-              <input
-                type="text"
-                value={registerEmail}
-                onChange={(e) => setRegisterEmail(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>Password:</th>
-            <td>
-              <input
-                type="text"
-                value={registerPassword}
-                onChange={(e) => setRegisterPassword(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button onClick={registerNewUser}>Registrieren</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h2>Einloggen</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Benutzername:</th>
-            <td>
-              <input
-                type="text"
-                value={loginUsername}
-                onChange={(e) => setLoginUsername(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>Passwort:</th>
-            <td>
-              <input
-                type="text"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button onClick={loginUser}>Einloggen</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h2>Ausloggen</h2>
-      <button onClick={logoutUser}>Ausloggen</button>
+      {username === 'AnonymousUser' ? (
+        <>
+          <h2>Registrierung</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Username:</th>
+                <td>
+                  <input
+                    type="text"
+                    value={registerUsername}
+                    onChange={(e) => setRegisterUsername(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Email:</th>
+                <td>
+                  <input
+                    type="text"
+                    value={registerEmail}
+                    onChange={(e) => setRegisterEmail(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Password:</th>
+                <td>
+                  <input
+                    type="text"
+                    value={registerPassword}
+                    onChange={(e) => setRegisterPassword(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button onClick={registerNewUser}>Registrieren</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>Einloggen</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Benutzername:</th>
+                <td>
+                  <input
+                    type="text"
+                    value={loginUsername}
+                    onChange={(e) => setLoginUsername(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Passwort:</th>
+                <td>
+                  <input
+                    type="text"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button onClick={loginUser}>Einloggen</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </>
+      ) : (
+        <>
+          <h2>Ausloggen</h2>
+          <button onClick={logoutUser}>Ausloggen</button>
+        </>
+      )}
     </>
   );
 }
