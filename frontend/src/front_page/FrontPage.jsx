@@ -1,43 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import API from '../shared/api';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 /**
  *
  * @return {JSX.Element}
  * @constructor
  */
-export default function FrontPage() {
-  const [username, setUsername] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
-
+export default function FrontPage({ username, setReloadCurrentUser, setReloadIsAdmin }) {
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
 
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
-  const [reloadCurrentUser, setReloadCurrentUser] = useState(false);
-  const [reloadIsAdmin, setReloadIsAdmin] = useState(false);
-
-  useEffect(() => {
-    API.get('/api/current_user/')
-      .then((response) => {
-        setUsername(response.data.user);
-        setReloadCurrentUser(false);
-      })
-      .catch((error) => console.log(error));
-  }, [reloadCurrentUser]);
-
-  useEffect(() => {
-    API.get('/api/is_user_admin/')
-      .then((response) => {
-        setIsAdmin(response.data.is_admin);
-        setReloadIsAdmin(false);
-      })
-      .catch((error) => console.log(error));
-  }, [reloadIsAdmin]);
 
   const registerNewUser = () => {
     const payload = {
@@ -80,12 +56,6 @@ export default function FrontPage() {
 
   return (
     <>
-      Eingeloggt als: {username === 'AnonymousUser' ? '-' : username}
-      <h1>Front Page</h1>
-      <div>
-        <Link to={'/user/'}>User Profil</Link>
-      </div>
-      <div>{isAdmin ? <Link to={'/admin/'}>Admin Seite</Link> : null}</div>
       {username === 'AnonymousUser' ? (
         <>
           <h2>Registrierung</h2>
@@ -169,3 +139,8 @@ export default function FrontPage() {
     </>
   );
 }
+FrontPage.propTypes = {
+  username: PropTypes.string.isRequired,
+  setReloadCurrentUser: PropTypes.func.isRequired,
+  setReloadIsAdmin: PropTypes.func.isRequired
+};
