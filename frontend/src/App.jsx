@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FrontPage from './front_page/FrontPage';
 import UserPage from './user_page/UserPage';
 import CharacterPage from './character_page/CharacterPage';
-import AdminPage from './convention_page/AdminPage';
-import ConventionPage from './ConventionPage/ConventionPage';
-import ConventionSignUpPage from './ConventionSignUpPage/ConventionSignUpPage';
+import AdminPage from './admin_page/AdminPage';
+import ConventionPage from './convention_page/ConventionPage';
+import ConventionSignUpPage from './convention_signup_page/ConventionSignUpPage';
 import Header from './shared/Header';
 
 /**
