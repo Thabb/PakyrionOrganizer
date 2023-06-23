@@ -6,6 +6,7 @@ import AdminPage from './admin_page/AdminPage';
 import ConventionPage from './convention_page/ConventionPage';
 import ConventionSignUpPage from './convention_signup_page/ConventionSignUpPage';
 import Header from './shared/Header';
+import { Container } from 'react-bootstrap';
 
 /**
  *
@@ -17,14 +18,18 @@ function App() {
     <Router>
       <Header />
       <main>
-        <Routes>
-          <Route exact path="/" element={<FrontPage />} />
-          <Route path="/user/" element={<UserPage />} />
-          <Route path="/character/:characterId" element={<CharacterPage />} />
-          <Route path="/admin/" element={<AdminPage />} />
-          <Route path="/convention/:conventionId" element={<ConventionPage />} />
-          <Route path="/signup/:conventionId" element={<ConventionSignUpPage />} />
-        </Routes>
+        <Container>
+          <div className="main-card">
+            <Routes>
+              <Route exact path="/" element={<FrontPage />} />
+              <Route path="/user/" element={<UserPage />} />
+              <Route path="/character/:characterId" element={<CharacterPage />} />
+              <Route path="/admin/" element={<AdminPage />} />
+              <Route path="/convention/:conventionId" element={<ConventionPage />} />
+              <Route path="/signup/:conventionId" element={<ConventionSignUpPage />} />
+            </Routes>
+          </div>
+        </Container>
       </main>
     </Router>
   );

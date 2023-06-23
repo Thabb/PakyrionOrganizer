@@ -1,4 +1,4 @@
 .header{
-    border-bottom: 1px grey;
+    border-bottom: 1px var(--pakyrion-grey);
     padding: 1em;
 }
