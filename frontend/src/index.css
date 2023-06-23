@@ -1,4 +1,5 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "shared/Header.css";
 
 body {
   margin: 0;

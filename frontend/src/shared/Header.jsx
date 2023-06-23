@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import logo from '../resources/pakyrion-logo.png';
+import { Container } from 'react-bootstrap';
 
 /**
  * a
@@ -7,10 +9,12 @@ import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <>
-      <div>
-        <h1>
-          <Link to={'/'}>PAKYRION ORGANIZER</Link>
-        </h1>
+      <div className="header">
+        <Container className="header-container">
+          <Link to={'/'}>
+            <img src={logo} />
+          </Link>
+        </Container>
       </div>
     </>
   );
