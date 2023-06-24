@@ -9,11 +9,16 @@ html {
   --pakyrion-white: white;
   --pakyrion-grey: #f5f5f5;
   --pakyrion-text: black;
+  --pakyrion-green: #01b222;
 }
 
 a {
   text-decoration: none;
   color: var(--pakyrion-text);
+}
+
+a:hover {
+  color: var(--pakyrion-green);
 }
 
 main {

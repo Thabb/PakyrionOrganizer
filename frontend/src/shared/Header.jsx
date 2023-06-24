@@ -23,15 +23,19 @@ export default function Header({ username, isAdmin }) {
               <Container>
                 <Row className="justify-content-end">
                   <Col className="col-3">
-                    <div>{isAdmin ? <Link to={'/admin/'}>Admin Seite</Link> : null}</div>
+                    {isAdmin ? (
+                      <Link to={'/admin/'}>
+                        <div className="header-menu-item">Organisation</div>
+                      </Link>
+                    ) : null}
                   </Col>
                   <Col className="col-3">
-                    <div>
-                      <Link to={'/user/'}>
+                    <Link to={'/user/'}>
+                      <div className="header-menu-item">
                         <img src={userIcon} width="32" height="32" />{' '}
                         {username === 'AnonymousUser' ? '-' : username}
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                   </Col>
                 </Row>
               </Container>

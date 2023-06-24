@@ -2,3 +2,9 @@
     border-bottom: 1px var(--pakyrion-grey);
     padding: 1em;
 }
+.header-menu-item {
+    padding: .5em;
+    border: 1px solid var(--pakyrion-grey);
+    height: 100%;
+    text-align: center;
+}
