@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import API from '../shared/api';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 /**
  *
@@ -65,6 +66,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                 <th>Username:</th>
                 <td>
                   <input
+                    className="form-control"
                     type="text"
                     value={registerUsername}
                     onChange={(e) => setRegisterUsername(e.target.value)}
@@ -75,6 +77,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                 <th>Email:</th>
                 <td>
                   <input
+                    className="form-control"
                     type="text"
                     value={registerEmail}
                     onChange={(e) => setRegisterEmail(e.target.value)}
@@ -85,6 +88,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                 <th>Password:</th>
                 <td>
                   <input
+                    className="form-control"
                     type="text"
                     value={registerPassword}
                     onChange={(e) => setRegisterPassword(e.target.value)}
@@ -93,7 +97,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
               </tr>
               <tr>
                 <td>
-                  <button onClick={registerNewUser}>Registrieren</button>
+                  <Button onClick={registerNewUser}>Registrieren</Button>
                 </td>
               </tr>
             </tbody>
@@ -106,6 +110,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                 <th>Benutzername:</th>
                 <td>
                   <input
+                    className="form-control"
                     type="text"
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
@@ -116,6 +121,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                 <th>Passwort:</th>
                 <td>
                   <input
+                    className="form-control"
                     type="text"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
@@ -124,7 +130,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
               </tr>
               <tr>
                 <td>
-                  <button onClick={loginUser}>Einloggen</button>
+                  <Button onClick={loginUser}>Einloggen</Button>
                 </td>
               </tr>
             </tbody>
@@ -133,7 +139,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
       ) : (
         <>
           <h2>Ausloggen</h2>
-          <button onClick={logoutUser}>Ausloggen</button>
+          <Button onClick={logoutUser}>Ausloggen</Button>
         </>
       )}
     </>

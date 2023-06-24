@@ -39,6 +39,7 @@ export default function CharacterPage() {
           <th key={`character-table-${key}`}>{key}</th>
           <td key={`character-table-${value}`}>
             <input
+              className="form-control"
               type="text"
               value={formData[key] || value || ''}
               onChange={(e) => {

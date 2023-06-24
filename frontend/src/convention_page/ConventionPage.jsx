@@ -50,6 +50,7 @@ export default function ConventionPage() {
           <th key={`convention-table-${key}`}>{key}</th>
           <td key={`convention-table-${value}`}>
             <input
+              className="form-control"
               type="text"
               value={formData[key] || value || ''}
               onChange={(e) => {

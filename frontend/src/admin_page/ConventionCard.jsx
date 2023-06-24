@@ -92,6 +92,7 @@ export default function ConventionCard() {
         <p>Neue Convention:</p>
         Name:{' '}
         <input
+          className="form-control"
           type="text"
           value={newConventionName}
           onChange={(e) => setNewConventionName(e.target.value)}

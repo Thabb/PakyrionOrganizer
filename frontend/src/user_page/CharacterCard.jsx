@@ -101,6 +101,7 @@ export default function CharacterCard() {
         <p>Neuer Charakter:</p>
         Name:{' '}
         <input
+          className="form-control"
           type="text"
           value={newCharacterName}
           onChange={(e) => setNewCharacterName(e.target.value)}
