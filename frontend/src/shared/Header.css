@@ -1,10 +1,10 @@
 .header{
-    border-bottom: 1px var(--pakyrion-grey);
+    border-bottom: 1px var(--pakyrion-lightgrey);
     padding: 1em;
 }
 .header-menu-item {
     padding: .5em;
-    border: 1px solid var(--pakyrion-grey);
+    border: 1px solid var(--pakyrion-lightgrey);
     height: 100%;
     text-align: center;
 }

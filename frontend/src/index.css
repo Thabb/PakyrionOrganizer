@@ -7,7 +7,8 @@
 
 html {
   --pakyrion-white: white;
-  --pakyrion-grey: #f5f5f5;
+  --pakyrion-lightgrey: #f5f5f5;
+  --pakyrion-grey: #ced4da;
   --pakyrion-text: black;
   --pakyrion-green: #01b222;
 }
@@ -22,7 +23,7 @@ a:hover {
 }
 
 main {
-  background: var(--pakyrion-grey);
+  background: var(--pakyrion-lightgrey);
   min-height: 100vh;
 }
 
@@ -30,4 +31,20 @@ main {
   background: var(--pakyrion-white);
   margin-top: 4em;
   padding: 5em 6em;
+}
+
+.form-button {
+  background: var(--pakyrion-grey);
+  color: var(--pakyrion-text);
+  border-color: var(--pakyrion-grey);
+}
+
+.form-button:hover {
+  background: var(--pakyrion-green);
+  color: var(--pakyrion-white);
+  border-color: var(--pakyrion-grey);
+}
+
+.form-button-width-100 {
+  width: 100%;
 }

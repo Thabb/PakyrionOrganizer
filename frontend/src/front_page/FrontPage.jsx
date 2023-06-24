@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import API from '../shared/api';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 /**
  *
@@ -60,9 +60,9 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
       {username === 'AnonymousUser' ? (
         <Container>
           <Row>
-            <Col>
+            <Col md={4}>
               <h2>Einloggen</h2>
-              <table>
+              <Table className="table-borderless">
                 <tbody>
                   <tr>
                     <th>Benutzername:</th>
@@ -80,7 +80,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                     <td>
                       <input
                         className="form-control"
-                        type="text"
+                        type="password"
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
                       />
@@ -89,19 +89,21 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                   <tr>
                     <td />
                     <td>
-                      <Button onClick={loginUser}>Einloggen</Button>
+                      <Button className="form-button form-button-width-100" onClick={loginUser}>
+                        Einloggen
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </Table>
             </Col>
 
-            <Col>
+            <Col md={{ span: 4, offset: 2 }}>
               <h2>Registrierung</h2>
-              <table>
+              <Table className="table-borderless">
                 <tbody>
                   <tr>
-                    <th>Username:</th>
+                    <th>Benutzername:</th>
                     <td>
                       <input
                         className="form-control"
@@ -112,22 +114,22 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                     </td>
                   </tr>
                   <tr>
-                    <th>Email:</th>
+                    <th>E-Mail:</th>
                     <td>
                       <input
                         className="form-control"
-                        type="text"
+                        type="email"
                         value={registerEmail}
                         onChange={(e) => setRegisterEmail(e.target.value)}
                       />
                     </td>
                   </tr>
                   <tr>
-                    <th>Password:</th>
+                    <th>Passwort:</th>
                     <td>
                       <input
                         className="form-control"
-                        type="text"
+                        type="password"
                         value={registerPassword}
                         onChange={(e) => setRegisterPassword(e.target.value)}
                       />
@@ -136,18 +138,24 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
                   <tr>
                     <td />
                     <td>
-                      <Button onClick={registerNewUser}>Registrieren</Button>
+                      <Button
+                        className="form-button form-button-width-100"
+                        onClick={registerNewUser}>
+                        Registrieren
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </Table>
             </Col>
           </Row>
         </Container>
       ) : (
         <>
           <h2>Ausloggen</h2>
-          <Button onClick={logoutUser}>Ausloggen</Button>
+          <Button className="form-button" onClick={logoutUser}>
+            Ausloggen
+          </Button>
         </>
       )}
     </>
