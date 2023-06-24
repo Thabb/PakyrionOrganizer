@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import API from '../shared/api';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 /**
  *
@@ -58,84 +58,92 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
   return (
     <>
       {username === 'AnonymousUser' ? (
-        <>
-          <h2>Registrierung</h2>
-          <table>
-            <tbody>
-              <tr>
-                <th>Username:</th>
-                <td>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={registerUsername}
-                    onChange={(e) => setRegisterUsername(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Email:</th>
-                <td>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={registerEmail}
-                    onChange={(e) => setRegisterEmail(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Password:</th>
-                <td>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={registerPassword}
-                    onChange={(e) => setRegisterPassword(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <Button onClick={registerNewUser}>Registrieren</Button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <Container>
+          <Row>
+            <Col>
+              <h2>Einloggen</h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Benutzername:</th>
+                    <td>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={loginUsername}
+                        onChange={(e) => setLoginUsername(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Passwort:</th>
+                    <td>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td>
+                      <Button onClick={loginUser}>Einloggen</Button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </Col>
 
-          <h2>Einloggen</h2>
-          <table>
-            <tbody>
-              <tr>
-                <th>Benutzername:</th>
-                <td>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={loginUsername}
-                    onChange={(e) => setLoginUsername(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Passwort:</th>
-                <td>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <Button onClick={loginUser}>Einloggen</Button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </>
+            <Col>
+              <h2>Registrierung</h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Username:</th>
+                    <td>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={registerUsername}
+                        onChange={(e) => setRegisterUsername(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Email:</th>
+                    <td>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={registerEmail}
+                        onChange={(e) => setRegisterEmail(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Password:</th>
+                    <td>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={registerPassword}
+                        onChange={(e) => setRegisterPassword(e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td>
+                      <Button onClick={registerNewUser}>Registrieren</Button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </Col>
+          </Row>
+        </Container>
       ) : (
         <>
           <h2>Ausloggen</h2>
