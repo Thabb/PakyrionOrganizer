@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../shared/api';
 import { Button, Table } from 'react-bootstrap';
 
@@ -11,20 +11,15 @@ export default function UserDataCard() {
   const [userData, setUserData] = useState([]);
   const [formData, setFormData] = useState({});
 
-  // initialize formData with data from the API
-  useCallback(
-    () =>
-      Object.entries(userData).map(([key, value]) => {
-        formData[key] = value;
-      }),
-    []
-  );
-
   // API call to get data
   useEffect(() => {
     API.get('/api/user_data/')
       .then((response) => {
         setUserData(response.data);
+        // initialize formData with data from the API
+        Object.entries(response.data).map(([key, value]) => {
+          formData[key] = value;
+        });
       })
       .catch((error) => console.log(error));
   }, []);
@@ -59,7 +54,7 @@ export default function UserDataCard() {
             <input
               className="form-control"
               type="text"
-              value={formData[key] || value || ''}
+              value={formData[key] || ''}
               onChange={(e) => {
                 setFormData((values) => ({ ...values, [key]: e.target.value }));
               }}
