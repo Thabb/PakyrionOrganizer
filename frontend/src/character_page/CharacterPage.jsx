@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import API from '../shared/api';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 /**
@@ -68,9 +68,6 @@ export default function CharacterPage() {
 
   const deleteCharacter = () => {
     API.post(`/api/character_delete/${characterId}`).then((response) => console.log(response));
-    const link = document.createElement('a');
-    link.setAttribute('href', 'javascript:history.back();');
-    link.click();
   };
 
   return (
@@ -84,11 +81,13 @@ export default function CharacterPage() {
                 {generateCharacterPresentation()}
                 <tr>
                   <td>
-                    <Button
-                      className="form-button-danger form-button-width-100"
-                      onClick={deleteCharacter}>
-                      Charakter löschen!
-                    </Button>
+                    <Link to={'/user/'}>
+                      <Button
+                        className="form-button-danger form-button-width-100"
+                        onClick={deleteCharacter}>
+                        Charakter löschen!
+                      </Button>
+                    </Link>
                   </td>
                   <td>
                     <Button
