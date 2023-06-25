@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
 import API from '../shared/api';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 /**
  *
@@ -57,8 +57,8 @@ export default function CharacterCard() {
 
   return (
     <>
-      <h2>Charakter Übersicht</h2>
-      <table {...getTableProps()}>
+      <h2>Charakterübersicht</h2>
+      <Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => {
             return (
@@ -95,19 +95,25 @@ export default function CharacterCard() {
               </tr>
             );
           })}
+          <tr>
+            <td>
+              <input
+                className="form-control"
+                type="text"
+                value={newCharacterName}
+                placeholder="Charaktername"
+                onChange={(e) => setNewCharacterName(e.target.value)}
+              />
+            </td>
+            <td>
+              <Button className="form-button form-button-width-100" onClick={createNewCharacter}>
+                Neuer Charakter!
+              </Button>
+            </td>
+            <td />
+          </tr>
         </tbody>
-      </table>
-      <div>
-        <p>Neuer Charakter:</p>
-        Name:{' '}
-        <input
-          className="form-control"
-          type="text"
-          value={newCharacterName}
-          onChange={(e) => setNewCharacterName(e.target.value)}
-        />
-        <Button onClick={createNewCharacter}>Erstellen!</Button>
-      </div>
+      </Table>
     </>
   );
 }

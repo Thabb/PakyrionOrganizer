@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import API from '../shared/api';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 /**
  * ad
@@ -33,12 +33,20 @@ export default function UserDataCard() {
    * @return {JSX.Element[]}
    */
   const generateUserDataPresentation = () => {
+    const keyDict = {
+      first_name: 'Vorname',
+      last_name: 'Nachname',
+      birth_date: 'Geburtstag',
+      allergies: 'Allergien'
+    };
     return Object.entries(userData).map(([key, value]) => {
+      if (key === 'user_id') return;
       return (
         <tr key={`user-data-table-${key}-${value}`}>
-          <th key={`user-data-table-${key}`}>{key}</th>
+          <th key={`user-data-table-${key}`}>{keyDict[key]}</th>
           <td key={`user-data-table-${value}`}>
             <input
+              className="form-control"
               type="text"
               value={formData[key] || value || ''}
               onChange={(e) => {
@@ -58,10 +66,19 @@ export default function UserDataCard() {
   return (
     <>
       <h2>Benutzerdetails</h2>
-      <table>
-        <tbody>{generateUserDataPresentation()}</tbody>
-      </table>
-      <Button onClick={saveUserData}>Speichern!</Button>
+      <Table className="table-borderless">
+        <tbody>
+          {generateUserDataPresentation()}
+          <tr>
+            <td />
+            <td>
+              <Button className="form-button form-button-width-100" onClick={saveUserData}>
+                Speichern!
+              </Button>
+            </td>
+          </tr>
+        </tbody>
+      </Table>
     </>
   );
 }

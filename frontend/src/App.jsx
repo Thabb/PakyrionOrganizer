@@ -57,7 +57,7 @@ function App() {
                   />
                 }
               />
-              <Route path="/user/" element={<UserPage />} />
+              <Route path="/user/" element={<UserPage username={username} />} />
               <Route path="/character/:characterId" element={<CharacterPage />} />
               <Route path="/admin/" element={<AdminPage />} />
               <Route path="/convention/:conventionId" element={<ConventionPage />} />

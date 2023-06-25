@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import API from '../shared/api';
 import { useTable } from 'react-table';
 import { Link } from 'react-router-dom';
+import { Button, Table } from 'react-bootstrap';
 
 /**
  * a
@@ -36,8 +37,8 @@ export default function ConventionSignUpCard() {
 
   return (
     <>
-      <h2>Convention Übersicht</h2>
-      <table {...getTableProps()}>
+      <h2>Veranstaltungsübersicht</h2>
+      <Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => {
             return (
@@ -49,6 +50,7 @@ export default function ConventionSignUpCard() {
                     {column.render('Header')}
                   </th>
                 ))}
+                <th />
               </tr>
             );
           })}
@@ -60,26 +62,30 @@ export default function ConventionSignUpCard() {
               <tr {...row.getRowProps} key={`convention-overview-table-body-row-${row.id}`}>
                 {row.cells.map((cell) => {
                   return (
-                    <td
-                      {...cell.getCellProps}
-                      key={`convention-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
-                      {cell.render('Cell')}
-                      <Link
-                        to={`/signup/${
-                          conventionData.find((convention) => convention['name'] === cell.value)[
-                            'id'
-                          ]
-                        }`}>
-                        Anmelden
-                      </Link>
-                    </td>
+                    <>
+                      <td
+                        {...cell.getCellProps}
+                        key={`convention-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
+                        {cell.render('Cell')}
+                      </td>
+                      <td>
+                        <Link
+                          to={`/signup/${
+                            conventionData.find((convention) => convention['name'] === cell.value)[
+                              'id'
+                            ]
+                          }`}>
+                          <Button className="form-button form-button-width-100">Anmelden</Button>
+                        </Link>
+                      </td>
+                    </>
                   );
                 })}
               </tr>
             );
           })}
         </tbody>
-      </table>
+      </Table>
     </>
   );
 }
