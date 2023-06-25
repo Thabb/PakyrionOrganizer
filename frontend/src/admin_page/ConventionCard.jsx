@@ -37,14 +37,6 @@ export default function ConventionCard() {
       {
         Header: 'Abreisetag',
         accessor: 'end_date'
-      },
-      {
-        Header: 'Anzahl Spieler',
-        accessor: 'max_players'
-      },
-      {
-        Header: 'Anzahl NSCs',
-        accessor: 'max_npcs'
       }
     ],
     []
@@ -117,6 +109,7 @@ export default function ConventionCard() {
                 Veranstaltung anlegen!
               </Button>
             </td>
+            <td />
           </tr>
         </tbody>
       </Table>

@@ -12,7 +12,7 @@ export default function AdminPage() {
       <h1>Organisatorisches</h1>
       <Container>
         <Row>
-          <Col md={10}>
+          <Col md={6}>
             <ConventionCard />
           </Col>
         </Row>

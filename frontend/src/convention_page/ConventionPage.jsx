@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import API from '../shared/api';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { useTable } from 'react-table';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 /**
  * y
@@ -15,19 +15,13 @@ export default function ConventionPage() {
   const [conventionSignUpData, setConventionSignUpData] = useState([]);
   const { conventionId } = useParams();
 
-  // initialize formData with data from the API
-  useCallback(
-    () =>
-      Object.entries(conventionData).map(([key, value]) => {
-        formData[key] = value;
-      }),
-    []
-  );
-
   useEffect(() => {
     API.get(`/api/convention/${conventionId}`)
       .then((response) => {
         setConventionData(response.data);
+        Object.entries(response.data).map(([key, value]) => {
+          formData[key] = value;
+        });
       })
       .catch((error) => console.log(error));
   }, []);
@@ -44,10 +38,17 @@ export default function ConventionPage() {
    * @return {JSX.Element[]}
    */
   const generateConventionPresentation = () => {
+    const keyDict = {
+      name: 'Name',
+      start_date: 'Anreisetag',
+      end_date: 'Abreisetag',
+      max_players: 'Anzahl Spieler',
+      max_npcs: 'Anzahl NSCs'
+    };
     return Object.entries(conventionData).map(([key, value]) => {
       return (
         <tr key={`convention-table-${key}-${value}`}>
-          <th key={`convention-table-${key}`}>{key}</th>
+          <th key={`convention-table-${key}`}>{keyDict[key]}</th>
           <td key={`convention-table-${value}`}>
             <input
               className="form-control"
@@ -113,78 +114,104 @@ export default function ConventionPage() {
 
   return (
     <>
-      <h1>Convention Page</h1>
-      <div>
-        <h2>Convention bearbeiten</h2>
-        <table>
-          <tbody>{generateConventionPresentation()}</tbody>
-        </table>
-        <Button onClick={saveConventionData}>Speichern!</Button>
-        <Button onClick={deleteConvention}>Convention löschen!</Button>
-      </div>
+      <h1>Veranstaltungsdetails</h1>
+      <Container>
+        <Row>
+          <Col md={6}>
+            <h2>Veranstaltung bearbeiten</h2>
+            <Table>
+              <tbody>
+                {generateConventionPresentation()}
+                <tr>
+                  <td>
+                    <Button
+                      className="form-button-danger form-button-width-100"
+                      onClick={deleteConvention}>
+                      Convention löschen!
+                    </Button>
+                  </td>
+                  <td>
+                    <Link to={'/admin/'}>
+                      <Button
+                        className="form-button form-button-width-100"
+                        onClick={saveConventionData}>
+                        Speichern!
+                      </Button>
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
 
-      <div>
-        <h2>Anmeldungen einsehen</h2>
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => {
-              return (
-                <tr
-                  {...headerGroup.getHeaderGroupProps}
-                  key={'convention-signup-overview-table-head-row'}>
-                  {headerGroup.headers.map((column) => {
-                    if (column.Header === 'con_id') return;
-                    return (
-                      <th
-                        {...column.getHeaderProps}
-                        key={`convention-signup-overview-table-head-cell-${column.id}`}>
-                        {column.render('Header')}
-                      </th>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps}
-                  key={`convention-signup-overview-table-body-row-${row.id}`}>
-                  {row.cells.map((cell) => {
-                    if (cell.column.id === 'id') return;
-                    return (
-                      <td
-                        {...cell.getCellProps}
-                        key={`convention-signup-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
-                        {cell.render('Cell')}
+        <Row>
+          <Col md={6}>
+            <h2>Anmeldungen einsehen</h2>
+            <Table {...getTableProps()}>
+              <thead>
+                {headerGroups.map((headerGroup) => {
+                  return (
+                    <tr
+                      {...headerGroup.getHeaderGroupProps}
+                      key={'convention-signup-overview-table-head-row'}>
+                      {headerGroup.headers.map((column) => {
+                        if (column.Header === 'con_id') return;
+                        return (
+                          <th
+                            {...column.getHeaderProps}
+                            key={`convention-signup-overview-table-head-cell-${column.id}`}>
+                            {column.render('Header')}
+                          </th>
+                        );
+                      })}
+                      <th />
+                      <th />
+                    </tr>
+                  );
+                })}
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {rows.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr
+                      {...row.getRowProps}
+                      key={`convention-signup-overview-table-body-row-${row.id}`}>
+                      {row.cells.map((cell) => {
+                        if (cell.column.id === 'id') return;
+                        return (
+                          <td
+                            {...cell.getCellProps}
+                            key={`convention-signup-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
+                            {cell.render('Cell')}
+                          </td>
+                        );
+                      })}
+                      <td>
+                        <Button
+                          onClick={() => {
+                            approveSignUp(row.values.id);
+                          }}>
+                          Bestätigen
+                        </Button>
                       </td>
-                    );
-                  })}
-                  <td>
-                    <Button
-                      onClick={() => {
-                        approveSignUp(row.values.id);
-                      }}>
-                      Bestätigen
-                    </Button>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={() => {
-                        disproveSignUp(row.values.id);
-                      }}>
-                      Ablehnen
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            disproveSignUp(row.values.id);
+                          }}>
+                          Ablehnen
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
