@@ -11,6 +11,7 @@ html {
   --pakyrion-grey: #ced4da;
   --pakyrion-text: black;
   --pakyrion-green: #01b222;
+  --pakyrion-red: #ce4300;
 }
 
 a {
@@ -41,6 +42,18 @@ main {
 
 .form-button:hover {
   background: var(--pakyrion-green);
+  color: var(--pakyrion-white);
+  border-color: var(--pakyrion-grey);
+}
+
+.form-button-danger {
+  background: var(--pakyrion-grey);
+  color: var(--pakyrion-text);
+  border-color: var(--pakyrion-grey);
+}
+
+.form-button-danger:hover {
+  background: var(--pakyrion-red);
   color: var(--pakyrion-white);
   border-color: var(--pakyrion-grey);
 }

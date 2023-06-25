@@ -84,7 +84,9 @@ export default function CharacterPage() {
                 {generateCharacterPresentation()}
                 <tr>
                   <td>
-                    <Button className="form-button form-button-width-100" onClick={deleteCharacter}>
+                    <Button
+                      className="form-button-danger form-button-width-100"
+                      onClick={deleteCharacter}>
                       Charakter löschen!
                     </Button>
                   </td>

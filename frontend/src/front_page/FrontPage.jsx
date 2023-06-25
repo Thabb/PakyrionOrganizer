@@ -153,7 +153,7 @@ export default function FrontPage({ username, setReloadCurrentUser, setReloadIsA
       ) : (
         <>
           <h2>Ausloggen</h2>
-          <Button className="form-button" onClick={logoutUser}>
+          <Button className="form-button-danger" onClick={logoutUser}>
             Ausloggen
           </Button>
         </>
