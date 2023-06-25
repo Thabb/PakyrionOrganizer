@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../shared/api';
 import { useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 /**
  * @return {JSX.Element}
@@ -11,21 +11,16 @@ export default function CharacterPage() {
   const [formData, setFormData] = useState({});
   const { characterId } = useParams();
 
-  // initialize formData with data from the API
-  useCallback(
-    () =>
-      Object.entries(characterData).map(([key, value]) => {
-        formData[key] = value;
-      }),
-    []
-  );
-
   // API call to get data
   useEffect(() => {
     API.get(`/api/character/${characterId}`)
       .then((response) => {
         setCharacterData(response.data);
+        Object.entries(response.data).map(([key, value]) => {
+          formData[key] = value;
+        });
       })
+
       .catch((error) => console.log(error));
   }, []);
 
@@ -33,15 +28,28 @@ export default function CharacterPage() {
    * @return {JSX.Element[]}
    */
   const generateCharacterPresentation = () => {
+    const keyDict = {
+      name: 'Name',
+      title: 'Titel/ Stand',
+      group: 'Gruppe/ Heimat',
+      profession: 'Profession',
+      character_class: 'Klasse',
+      specialized: 'Spezialisiert?',
+      con_days: 'Contage (Charakter)',
+      species: 'Spezies',
+      faith: 'Glaube',
+      alignment: 'Gesinnung'
+    };
     return Object.entries(characterData).map(([key, value]) => {
+      if (key === 'user_id') return;
       return (
         <tr key={`character-table-${key}-${value}`}>
-          <th key={`character-table-${key}`}>{key}</th>
+          <th key={`character-table-${key}`}>{keyDict[key]}</th>
           <td key={`character-table-${value}`}>
             <input
               className="form-control"
               type="text"
-              value={formData[key] || value || ''}
+              value={formData[key] || ''}
               onChange={(e) => {
                 setFormData((values) => ({ ...values, [key]: e.target.value }));
               }}
@@ -67,12 +75,32 @@ export default function CharacterPage() {
 
   return (
     <>
-      <h1>Character Page</h1>
-      <table>
-        <tbody>{generateCharacterPresentation()}</tbody>
-      </table>
-      <Button onClick={saveCharacterData}>Speichern!</Button>
-      <Button onClick={deleteCharacter}>Charakter löschen!</Button>
+      <h1>Charakterdetails</h1>
+      <Container>
+        <Row>
+          <Col md={6}>
+            <Table>
+              <tbody>
+                {generateCharacterPresentation()}
+                <tr>
+                  <td>
+                    <Button className="form-button form-button-width-100" onClick={deleteCharacter}>
+                      Charakter löschen!
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      className="form-button form-button-width-100"
+                      onClick={saveCharacterData}>
+                      Speichern!
+                    </Button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

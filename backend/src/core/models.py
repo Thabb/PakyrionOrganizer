@@ -8,11 +8,15 @@ class Character(models.Model):
     user_id = models.ForeignKey(PermissionUser, on_delete=models.CASCADE, default=1)  # TODO: ACTUAL DEFAULT USER
 
     name = models.CharField(max_length=255, default="")
-    group = models.CharField(max_length=255, default="")
+    title = models.CharField(max_length=255, default="")
     profession = models.CharField(max_length=255, default="")
+    group = models.CharField(max_length=255, default="")
+    character_class = models.CharField(max_length=255, default="")
+    specialized = models.BooleanField(default=False)
+    con_days = models.IntegerField(default=0)
+    species = models.CharField(max_length=255, default="")
     faith = models.CharField(max_length=255, default="")
-    age = models.CharField(max_length=255, default="")
-    family = models.CharField(max_length=255, default="")
+    alignment = models.CharField(max_length=255, default="")
 
 
 class UserData(models.Model):
