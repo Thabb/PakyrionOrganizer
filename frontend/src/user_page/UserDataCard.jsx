@@ -36,8 +36,19 @@ export default function UserDataCard() {
     const keyDict = {
       first_name: 'Vorname',
       last_name: 'Nachname',
+      street: 'Straße',
+      zipcode: 'PLZ',
+      city: 'Ort',
+      telephone: 'Festnetz',
+      mobile: 'Mobiltelefon',
       birth_date: 'Geburtstag',
-      allergies: 'Allergien'
+      con_days: 'Contage (Spieler)',
+      sicknesses: 'Krankheiten',
+      allergies: 'Allergien',
+      vegetarian: 'Vegetarier',
+      vegan: 'Veganer',
+      privacy_information: 'Privatinformation',
+      privacy_photos: 'Bildveröffentlichung'
     };
     return Object.entries(userData).map(([key, value]) => {
       if (key === 'user_id') return;

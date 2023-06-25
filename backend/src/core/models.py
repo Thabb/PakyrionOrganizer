@@ -20,8 +20,19 @@ class UserData(models.Model):
 
     first_name = models.CharField(max_length=255, default="")
     last_name = models.CharField(max_length=255, default="")
+    street = models.CharField(max_length=255, default="")
+    zipcode = models.IntegerField(default=0)
+    city = models.CharField(max_length=255, default="")
+    telephone = models.CharField(max_length=255, default="")
+    mobile = models.CharField(max_length=255, default="")
     birth_date = models.DateField(null=True, blank=True)
+    con_days = models.IntegerField(default=0)
+    sicknesses = models.CharField(max_length=1023, default="")
     allergies = models.CharField(max_length=1023, default="")
+    vegetarian = models.BooleanField(default=False)
+    vegan = models.BooleanField(default=False)
+    privacy_information = models.BooleanField(default=False)
+    privacy_photos = models.BooleanField(default=False)
 
 
 class Convention(models.Model):
