@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import API from '../shared/api';
 import { useTable } from 'react-table';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 /**
  * a
@@ -29,6 +29,22 @@ export default function ConventionCard() {
       {
         Header: 'Name',
         accessor: 'name'
+      },
+      {
+        Header: 'Anreisetag',
+        accessor: 'start_date'
+      },
+      {
+        Header: 'Abreisetag',
+        accessor: 'end_date'
+      },
+      {
+        Header: 'Anzahl Spieler',
+        accessor: 'max_players'
+      },
+      {
+        Header: 'Anzahl NSCs',
+        accessor: 'max_npcs'
       }
     ],
     []
@@ -48,8 +64,8 @@ export default function ConventionCard() {
 
   return (
     <>
-      <h2>Convention Übersicht</h2>
-      <table {...getTableProps()}>
+      <h2>Veranstaltungsübersicht</h2>
+      <Table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => {
             return (
@@ -86,19 +102,24 @@ export default function ConventionCard() {
               </tr>
             );
           })}
+          <tr>
+            <td>
+              <input
+                className="form-control"
+                type="text"
+                value={newConventionName}
+                placeholder="Veranstaltungsname"
+                onChange={(e) => setNewConventionName(e.target.value)}
+              />
+            </td>
+            <td>
+              <Button className="form-button form-button-width-100" onClick={createNewConvention}>
+                Veranstaltung anlegen!
+              </Button>
+            </td>
+          </tr>
         </tbody>
-      </table>
-      <div>
-        <p>Neue Convention:</p>
-        Name:{' '}
-        <input
-          className="form-control"
-          type="text"
-          value={newConventionName}
-          onChange={(e) => setNewConventionName(e.target.value)}
-        />
-        <Button onClick={createNewConvention}>Erstellen!</Button>
-      </div>
+      </Table>
     </>
   );
 }

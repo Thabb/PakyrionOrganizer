@@ -41,6 +41,10 @@ class UserData(models.Model):
 
 class Convention(models.Model):
     name = models.CharField(max_length=511, default="")
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    max_players = models.IntegerField(default=0)
+    max_npcs = models.IntegerField(default=0)
 
 
 class ConventionSignUp(models.Model):
