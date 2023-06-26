@@ -1,7 +1,7 @@
 import API from '../shared/api';
 import { useEffect, useMemo, useState } from 'react';
 import { useTable } from 'react-table';
-import { Button } from 'react-bootstrap';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 /**
@@ -91,83 +91,112 @@ export default function ConventionSignUpPage() {
 
   return (
     <>
-      <h1>Convention Anmeldung</h1>
+      <h1>Veranstaltungsanmeldung</h1>
 
-      <div>
-        {conventionSignUpExists ? (
-          ''
-        ) : (
-          <div>
-            Mit welchen Charakteren willst du dich für die Convention anmelden?
-            <table {...getTableProps()}>
-              <thead>
-                {headerGroups.map((headerGroup) => {
-                  return (
-                    <tr
-                      {...headerGroup.getHeaderGroupProps}
-                      key={'character-overview-table-head-row'}>
-                      {headerGroup.headers.map((column) => {
-                        if (column.Header === 'ID') return;
-                        return (
-                          <th
-                            {...column.getHeaderProps}
-                            key={`character-overview-table-head-cell-${column.id}`}>
-                            {column.render('Header')}
-                          </th>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-                {rows.map((row) => {
-                  prepareRow(row);
-                  return (
-                    <tr {...row.getRowProps} key={`character-overview-table-body-row-${row.id}`}>
-                      {row.cells.map((cell) => {
-                        if (cell.column.id === 'id') return;
-                        return (
-                          <td
-                            {...cell.getCellProps}
-                            key={`character-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
-                            {cell.render('Cell')}
+      <Container>
+        <Row>
+          <Col>
+            {conventionSignUpExists ? (
+              ''
+            ) : (
+              <div>
+                Mit welchen Charakteren willst du dich für die Convention anmelden?
+                <Table {...getTableProps()}>
+                  <thead>
+                    {headerGroups.map((headerGroup) => {
+                      return (
+                        <tr
+                          {...headerGroup.getHeaderGroupProps}
+                          key={'character-overview-table-head-row'}>
+                          {headerGroup.headers.map((column) => {
+                            if (column.Header === 'ID') return;
+                            return (
+                              <th
+                                {...column.getHeaderProps}
+                                key={`character-overview-table-head-cell-${column.id}`}>
+                                {column.render('Header')}
+                              </th>
+                            );
+                          })}
+                          <th />
+                          <th />
+                        </tr>
+                      );
+                    })}
+                  </thead>
+                  <tbody {...getTableBodyProps()}>
+                    {rows.map((row) => {
+                      prepareRow(row);
+                      return (
+                        <tr
+                          {...row.getRowProps}
+                          key={`character-overview-table-body-row-${row.id}`}>
+                          {row.cells.map((cell) => {
+                            if (cell.column.id === 'id') return;
+                            return (
+                              <td
+                                {...cell.getCellProps}
+                                key={`character-overview-table-body-cell-${cell.row.id}${cell.column.id}-${cell.value}`}>
+                                {cell.render('Cell')}
+                              </td>
+                            );
+                          })}
+                          <td>
+                            <Button
+                              className="form-button form-button-width-100"
+                              onClick={() => {
+                                addCharacterToSignUp(row.values.id);
+                              }}>
+                              Hinzufügen
+                            </Button>
                           </td>
-                        );
-                      })}
+                          <td>
+                            <Button
+                              className="form-button-danger form-button-width-100"
+                              onClick={() => {
+                                removeCharacterFromSignUp(row.values.id);
+                              }}>
+                              Entfernen
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    <tr>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
                       <td>
                         <Button
-                          onClick={() => {
-                            addCharacterToSignUp(row.values.id);
-                          }}>
-                          Hinzufügen
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            removeCharacterFromSignUp(row.values.id);
-                          }}>
-                          Entfernen
+                          className="form-button form-button-width-100"
+                          onClick={createNewConventionSignUp}>
+                          Anmeldung abschicken
                         </Button>
                       </td>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <Button onClick={createNewConventionSignUp}>Anmeldung abschicken</Button>
-          </div>
-        )}
-      </div>
-      <div>
-        {conventionSignUpExists ? (
-          <div>
-            <p>Status der Anmeldung: {conventionSignUpStatus ? 'Angenommen' : 'Abgeschickt'}</p>
-            <Button onClick={deleteConventionSignUp}>Anmeldung löschen</Button>
-          </div>
-        ) : (
-          'Noch kein Anmeldung abgeschickt!'
-        )}
-      </div>
+                  </tbody>
+                </Table>
+              </div>
+            )}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            {conventionSignUpExists ? (
+              <div>
+                <p>Status der Anmeldung: {conventionSignUpStatus ? 'Angenommen' : 'Abgeschickt'}</p>
+                <Button className="form-button-danger" onClick={deleteConventionSignUp}>
+                  Anmeldung löschen
+                </Button>
+              </div>
+            ) : (
+              <p>Noch kein Anmeldung abgeschickt!</p>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
